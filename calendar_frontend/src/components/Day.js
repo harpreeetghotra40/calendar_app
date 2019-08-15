@@ -1,7 +1,5 @@
 import React from 'react';
 
-
-
 const Day = (props) => {
     return (
         <div className="col-sm days" id={props.name}>
