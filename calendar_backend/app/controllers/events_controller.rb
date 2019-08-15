@@ -1,7 +1,8 @@
 class EventsController < ApplicationController
   def index
-    events = Event.where(:calendar_id => params[:calendar_id])
-    render json: EventSerializer.new(events).to_serialized_json
+    # events = Event.where(:calendar_id => params[:calendar_id])
+    # byebug
+    render json: EventSerializer.new(Event.all).to_serialized_json
   end
 
   def create

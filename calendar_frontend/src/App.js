@@ -23,6 +23,9 @@ class App extends React.Component {
     return moment().dayOfYear(this.state.currentWeek * 7 + dayOfWeek)._d
   }
 
+  componentDidMount() {
+  }
+
   render() {
     //this.thisWeek();
     return (
