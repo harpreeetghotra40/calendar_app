@@ -6,14 +6,14 @@ const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
 
 
 
-const renderDays = (first) => {
+const renderDays = (getDay) => {
     // const first = firstDateOfThisWeek();
     const newDays = [];
-    for (let i = 0; i < DAYS.length; i++) {
-        console.log(first);
+    for (let dayOfWeek = 0; dayOfWeek < DAYS.length; dayOfWeek++) {
+        // console.log(first);
         // console.log(typeof(first));
         // const thisDate = new Date(first.getFullYear(), first.getMonth(), first.getDate() + i)
-        newDays.push(<Day name={DAYS[i]} key={`day-${DAYS[i]}-${(first + i)._d}}`} date={first.add(i)}/>)
+        newDays.push(<Day name={DAYS[dayOfWeek]} key={getDay(dayOfWeek)} date={getDay(dayOfWeek)}/>)
     }
 
 
@@ -27,7 +27,7 @@ const renderDays = (first) => {
 const DaysContainer = (props) => {
     return (
         <React.Fragment>
-            {renderDays(props.firstDate)}
+            {renderDays( props.getDayFunction)}
         </React.Fragment>
         
     );

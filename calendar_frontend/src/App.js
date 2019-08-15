@@ -16,39 +16,51 @@ import moment from 'moment';
 //   return firstMonthDayAsDate;
 // }
 
-function thisWeek(iterator) {
-  const week = moment().week();
-  console.log(week);
-}
 
-function firstDayFromWeek(week) {
-  const day = week * 7;
-  const dayInYear = moment().dayOfYear(day)._d;
-  console.log("dayInYear:", dayInYear);
-  return dayInYear;
-}
+// function firstDayFromWeek(week) {
+//   const day = week * 7;
+//   console.log(day);
+//   const dayInYear = moment().dayOfYear(day)._d;
+//   console.log("dayInYear:", dayInYear);
 
+//   return day;
+//   // const dayOfWeek = (day % 7);
+//   // const firstDayOfWeek = dayInYear - dayOfWeek;
+//   // console.log(firstDayOfWeek)
+//   // return firstDayOfWeek;
+// }
 
 
 
 class App extends React.Component {
-
+  thisWeek = (iterator) => {
+    const week = moment().week() + this.state.weekIterator;
+    console.log(week);
+    return week;
+  }
+  
   state = {
     firstDayOfSelectedWeek: new Date(),
+    currentWeek: moment().week(),
     weekIterator: -1
   }
-
+  getDay  = (dayOfWeek) => {
+    return moment().dayOfYear(this.state.currentWeek * 7 + dayOfWeek)._d
+  }
   componentDidMount() {
     // const first = firstDateOfThisWeek();
-    this.setState({firstDayOfSelectedWeek : firstDayFromWeek(thisWeek(this.state.weekIterator))});
+    // const week = this.thisWeek(this.state.weekIterator);
+    // const dayOfWeek = firstDayFromWeek(week);
+    // this.setState({firstDayOfSelectedWeek : dayOfWeek});
+    // debugger;
   }
 
   render() {
-    thisWeek();
+    this.thisWeek();
     return (
       <div className="App">
         <NavBar/>
-        <DaysContainer firstDate={this.state.firstDayOfSelectedWeek}/>
+        <DaysContainer firstDate={this.state.firstDayOfSelectedWeek} getDayFunction = {this.getDay}/>
       </div>
     );
   }
