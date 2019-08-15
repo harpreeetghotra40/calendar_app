@@ -41,8 +41,8 @@ class App extends React.Component {
   
   state = {
     firstDayOfSelectedWeek: new Date(),
-    currentWeek: moment().week(),
-    weekIterator: -1
+    currentWeek: moment().week() -1,
+    weekIterator: 0
   }
   getDay  = (dayOfWeek) => {
     return moment().dayOfYear(this.state.currentWeek * 7 + dayOfWeek)._d
