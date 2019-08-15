@@ -11,9 +11,13 @@ const renderDays = (first) => {
     const newDays = [];
     for (let i = 0; i < DAYS.length; i++) {
         console.log(first);
-        const thisDate = new Date(first.getFullYear(), first.getMonth(), first.getDate() + i)
-        newDays.push(<Day name={DAYS[i]} key={`day-${DAYS[i]}-${thisDate}}`} date={thisDate}/>)
+        // console.log(typeof(first));
+        // const thisDate = new Date(first.getFullYear(), first.getMonth(), first.getDate() + i)
+        newDays.push(<Day name={DAYS[i]} key={`day-${DAYS[i]}-${(first + i)._d}}`} date={first.add(i)}/>)
     }
+
+
+    
     // return DAYS.map(day => {
         // return <Day name={day} key={`day-${day}`}/>
     // })
