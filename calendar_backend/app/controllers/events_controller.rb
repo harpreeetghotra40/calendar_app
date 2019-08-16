@@ -21,7 +21,7 @@ class EventsController < ApplicationController
       end
         event = Event.create!(title: params[:title], description: params[:description], calendar_id: 1, event_time: updatedTime)
         # render json: EventSerializer.new(event).to_serialized_json
-        render event.as_json(except: [:id, :calendar_id, :updated_at, :created_at])
+        render json: event.as_json(except: [:id, :calendar_id, :updated_at, :created_at])
         return
     rescue ActiveRecord::RecordInvalid => invalid
       render json: {errors: {message: "ActiveRecord::RecordInvalid!", errors: invalid.record.errors}}
