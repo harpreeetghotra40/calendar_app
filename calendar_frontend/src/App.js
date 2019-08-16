@@ -1,35 +1,29 @@
 import React from 'react';
 import './App.css';
-// import './main.css';
 import NavBar from './components/NavBar';
 import DaysContainer from './containers/DaysContainer';
-// import NavBar from '../'
 import moment from 'moment';
+import Navigation from './components/Navigation';
 
 class App extends React.Component {
-  // thisWeek = (iterator) => {
-  //   const week = moment().week() + this.state.weekIterator;
-  //   console.log(week);
-  //   return week;
-  // }
-  
+
   state = {
     firstDayOfSelectedWeek: new Date(),
-    currentWeek: moment().week() -1,
-    weekIterator: 0
+    currentWeek: moment().week() - 1,
   }
   getDay  = (dayOfWeek) => {
     return moment().dayOfYear(this.state.currentWeek * 7 + dayOfWeek)._d
   }
 
-  componentDidMount() {
+  getDifferentWeek = (weekIterate) => {
+    this.setState({currentWeek: this.state.currentWeek + weekIterate})
   }
 
   render() {
-    //this.thisWeek();
     return (
       <div className="App">
         <NavBar/>
+        <Navigation navigate = {this.getDifferentWeek}/>
         <DaysContainer firstDate={this.state.firstDayOfSelectedWeek} getDayFunction = {this.getDay}/>
       </div>
     );
