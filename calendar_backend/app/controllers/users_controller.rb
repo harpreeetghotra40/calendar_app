@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   def show
-    user = User.find(params[:id])
-    if user
+    begin
+      user = User.find(params[:id])
       render json: user, only: [:name, :email]
-    else
-      render json: { message: "user not found" }
+    rescue ActiveRecord::RecordNotFound => invalid
+      render json: { errors: {message: "user not found", errors: invalid} }
     end
   end
 end

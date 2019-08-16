@@ -1,10 +1,10 @@
 class CalendarsController < ApplicationController
   def show
-    calendar = Calendar.find(params[:id])
-    if calendar
+    begin
+      calendar = Calendar.find(params[:id])
       render json: CalendarSerializer.new(calendar).to_serialized_json
-    else
-      render json: { message: "Calendar not found!" }
+    rescue ActiveRecord::RecordNotFound => invalid
+      render json: { errors: {message: "Calendar not found!", errors: invalid} }
     end
   end
 end
