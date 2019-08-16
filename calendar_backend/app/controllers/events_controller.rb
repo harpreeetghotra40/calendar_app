@@ -6,8 +6,12 @@ class EventsController < ApplicationController
   end
 
   def create
-    updatedTime = DateTime.parse(params[:event_time])
-    event = Event.create!(title: params[:title], description: params[:description], calendar_id: 1, event_time: updatedTime)
-    render json: EventSerializer.new(event).to_serialized_json
+    begin
+      updatedTime = DateTime.parse(params[:event_time])
+      event = Event.create!(title: params[:title], description: params[:description], calendar_id: 1, event_time: updatedTime)
+      render json: EventSerializer.new(event).to_serialized_json
+    rescue ActiveRecord::RecordInvalid => invalid
+      render json: {errors: ["ActiveRecord::RecordInvalid!", invalid.record.errors]}
+    end
   end
 end
