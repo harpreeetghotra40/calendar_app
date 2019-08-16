@@ -11,8 +11,7 @@ class Day extends React.Component {
         title: '',
         description: ''
     }
-
-
+    
     renderEvents = () => {
         if (this.props.events.length === 0) {
             return null;
@@ -39,23 +38,29 @@ class Day extends React.Component {
     handleAddEventButtonClick = () => {
         this.modalFormShow(true);
     }
-
+    
     handleModalFormSubmit = (event) => {
         fetch("http://localhost:3000/events", {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accepts': 'application/json'
             },
             body: JSON.stringify({
                 title: this.state.title,
                 description: this.state.description,
-                event_time: moment(new Date())
+                event_time: this.props.date
             })
+        }).then(res => res.json())
+        .then(theNewEvent => {
+            this.props.newEvent(theNewEvent);
         })
-        console.warn("notimpl")
+
         this.modalFormShow(false);
+    }
+
+    renderCurrentEvent(){
+
     }
 
     renderModal = () => {
@@ -82,7 +87,6 @@ class Day extends React.Component {
     }
 
     render () {
-        // console.log(this.props.events)
         return (
             <div className="col-sm days" id={this.props.name}>
                 <p className="weekdays">{this.props.name}</p>

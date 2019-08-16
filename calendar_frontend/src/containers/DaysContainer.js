@@ -3,22 +3,19 @@ import Day from '../components/Day';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-const renderDays = (getDay, events) => {
+const renderDays = (getDay, events, newEventCallback) => {
     const newDays = [];
     
     for (let dayOfWeek = 0; dayOfWeek < DAYS.length; dayOfWeek++) {
         const parsedEvents = events.filter(event => {
             let newDate = new Date(event.event_time);
-            // console.log(this.props);
             let reqDate = getDay(dayOfWeek);
-            // console.log("reqDate: ", reqDate);
-            // console.log("newDate: ", newDate);
             if (newDate.getDate() === reqDate.getDate()) {
                 return true;
             }
             return false;
         });
-        newDays.push(<Day name={DAYS[dayOfWeek]} key={getDay(dayOfWeek)} date={getDay(dayOfWeek)} events={parsedEvents}/>)
+        newDays.push(<Day name={DAYS[dayOfWeek]} key={getDay(dayOfWeek)} date={getDay(dayOfWeek)} events={parsedEvents} newEvent={newEventCallback}/>)
     }
     return newDays;
 }
@@ -33,21 +30,23 @@ class DaysContainer extends React.Component {
         return (dateOne === dateTwo);
     }
     componentDidMount() {
-        // {title: "Feelings", description: "Don't Forget to Drink!!", event_time: "2019-08-16T20:58:27.279Z"}
-        fetch("http://localhost:3000/events").then(res => res.json()).then(response => {
-            // console.log(response);
-            // debugger;
-            return response;
-        }).then(events => {
+        fetch("http://localhost:3000/events")
+        .then(res => res.json())
+        .then(events => {
             this.setState({events: events});
-
         })
 
     }
+
+    newEvent = (theNewEvent) => {
+        const newEvents = [...this.state.events, theNewEvent]
+        this.setState({events: newEvents})
+    }
+    
     render() {
         return (
             <React.Fragment>
-                {renderDays( this.props.getDayFunction, this.state.events)}
+                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent)}
             </React.Fragment>
         );
     }
