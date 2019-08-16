@@ -9,9 +9,9 @@ export default class Navigation extends Component{
     render(){
         return (
             <div class="arrows-container">
-                <MaterialIcon onClick={() => this.diffWeek(1)} icon="keyboard_arrow_left"/>
+                <MaterialIcon onClick={() => this.diffWeek(-1)} icon="keyboard_arrow_left"/>
                 <p>This Week</p>
-                <MaterialIcon onClick={() => this.diffWeek(-1)} icon="keyboard_arrow_right" />
+                <MaterialIcon onClick={() => this.diffWeek(1)} icon="keyboard_arrow_right" />
             </div>
         )
     }
