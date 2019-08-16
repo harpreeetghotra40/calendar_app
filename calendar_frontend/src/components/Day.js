@@ -1,6 +1,16 @@
 import React from 'react';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import moment from 'moment';
 
 class Day extends React.Component {
+
+
+    state = {
+        showAddEventDialog: false,
+        title: '',
+        description: ''
+    }
 
 
     renderEvents = () => {
@@ -10,13 +20,69 @@ class Day extends React.Component {
 
         return this.props.events.map(event => {
             return (
-                <div className="event" draggable>{event.title}</div>
+                <div className="event" draggable key={`event-${event.title}`}>{event.title}</div>
             )
         })
     }
 
+    onModalFieldChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    modalFormShow = (value) => {
+        this.setState({
+            showAddEventDialog: value
+        })
+    }
+    handleAddEventButtonClick = () => {
+        this.modalFormShow(true);
+    }
+
+    handleModalFormSubmit = (event) => {
+        fetch("http://localhost:3000/events", {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                title: this.state.title,
+                description: this.state.description,
+                event_time: moment(new Date())
+            })
+        })
+        console.warn("notimpl")
+        this.modalFormShow(false);
+    }
+
+    renderModal = () => {
+        return (
+        <Modal show={this.state.showAddEventDialog} onHide={() => this.modalFormShow(false)}>
+
+            <Modal.Header closeButton>
+                <Modal.Title>Add Event</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <form onSubmit={() => { console.warn("notimpl") }}>
+                    <input type="text" name="title" className="form-control" id="event-title" value={this.state.eventDialogTitle} onChange={this.onModalFieldChange} />
+                    <textarea name="description" id="event-description" className="form-control" value ={this.state.eventDialogDescription} onChange={this.onModalFieldChange} />
+
+                </form>
+            </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => this.setState({showAddEventDialog: false})}>Close</Button>
+                    <Button variant="primary" onClick={this.handleModalFormSubmit}>Save changes</Button>
+                </Modal.Footer>
+        </Modal>
+        );
+    }
+
     render () {
-        console.log(this.props.events)
+        // console.log(this.props.events)
         return (
             <div className="col-sm days" id={this.props.name}>
                 <p className="weekdays">{this.props.name}</p>
@@ -28,7 +94,10 @@ class Day extends React.Component {
                     <div className="day-events">
                         {this.renderEvents()}
                     </div>
-                    <button type="button" className="new-event">+ Add new event</button>
+                    <Button variant="primary" onClick={this.handleAddEventButtonClick}>
+                    + Add new event
+                    </Button>
+                    {this.renderModal()}
                 </div>
             </div>
         );

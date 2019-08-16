@@ -11,8 +11,8 @@ const renderDays = (getDay, events) => {
             let newDate = new Date(event.event_time);
             // console.log(this.props);
             let reqDate = getDay(dayOfWeek);
-            console.log("reqDate: ", reqDate);
-            console.log("newDate: ", newDate);
+            // console.log("reqDate: ", reqDate);
+            // console.log("newDate: ", newDate);
             if (newDate.getDate() === reqDate.getDate()) {
                 return true;
             }
@@ -35,7 +35,7 @@ class DaysContainer extends React.Component {
     componentDidMount() {
         // {title: "Feelings", description: "Don't Forget to Drink!!", event_time: "2019-08-16T20:58:27.279Z"}
         fetch("http://localhost:3000/events").then(res => res.json()).then(response => {
-            console.log(response);
+            // console.log(response);
             // debugger;
             return response;
         }).then(events => {
