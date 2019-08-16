@@ -1,5 +1,6 @@
 import React from 'react';
 import Day from '../components/Day';
+import formatErrors from '../util/FormatErrorObject'
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -20,6 +21,7 @@ const renderDays = (getDay, events, newEventCallback) => {
     return newDays;
 }
 
+
 class DaysContainer extends React.Component {
 
     state = {
@@ -29,11 +31,18 @@ class DaysContainer extends React.Component {
     validate = (dateOne, dateTwo) => {
         return (dateOne === dateTwo);
     }
+
     componentDidMount() {
+        // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
         fetch("http://localhost:3000/events")
         .then(res => res.json())
-        .then(events => {
-            this.setState({events: events});
+        .then(eventsJSONParsed => {
+            if(eventsJSONParsed.errors) {
+                console.error(eventsJSONParsed.errors);
+                alert(formatErrors(eventsJSONParsed.errors));
+                return;
+            }
+            this.setState({events: eventsJSONParsed});
         })
 
     }

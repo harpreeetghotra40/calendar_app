@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import moment from 'moment';
+// import moment from 'moment';
+import formatErrors from '../util/FormatErrorObject'
 
 class Day extends React.Component {
 
@@ -39,8 +40,9 @@ class Day extends React.Component {
         this.modalFormShow(true);
     }
     
-    handleModalFormSubmit = (event) => {
-        fetch("http://localhost:3000/events", {
+    postEvents = (event) => {
+        // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+        return fetch("http://localhost:3000/events", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,12 +53,23 @@ class Day extends React.Component {
                 description: this.state.description,
                 event_time: this.props.date
             })
-        }).then(res => res.json())
-        .then(theNewEvent => {
-            this.props.newEvent(theNewEvent);
-        })
+        });
+    }
 
-        this.modalFormShow(false);
+    handleModalFormSubmit = (event) => {
+        this.postEvents(event)
+            .then(res => res.json())
+            .then(theNewEvent => {
+                if (theNewEvent.errors) {
+                    console.error(theNewEvent.errors);
+                    alert(formatErrors(theNewEvent.errors));
+                    return;
+                }
+                this.props.newEvent(theNewEvent);
+                this.modalFormShow(false);
+            })
+
+        
     }
 
     renderCurrentEvent(){
