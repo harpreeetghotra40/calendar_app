@@ -28,10 +28,6 @@ class DaysContainer extends React.Component {
         events: []
     }
 
-    validate = (dateOne, dateTwo) => {
-        return (dateOne === dateTwo);
-    }
-
     componentDidMount() {
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
         fetch("http://localhost:3000/events")
@@ -48,7 +44,8 @@ class DaysContainer extends React.Component {
     }
 
     newEvent = (theNewEvent) => {
-        const newEvents = [...this.state.events, theNewEvent]
+        const filteredEvents = this.state.events.filter(event => event.title !== theNewEvent.title)
+        const newEvents = [...filteredEvents, theNewEvent]
         this.setState({events: newEvents})
     }
     

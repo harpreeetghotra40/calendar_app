@@ -10,13 +10,13 @@ class Day extends React.Component {
     state = {
         showAddEventDialog: false,
         title: '',
-        description: ''
+        description: '',
     }
 
 
     drag = (event) => {
-        const reqEvent = this.props.events.find(reqEvent => reqEvent.title === event.target.innerText)
-        var eventToTransfer = JSON.stringify(reqEvent);
+        const reqEvent = this.props.events.find(ev => ev.title === event.target.innerText)
+        let eventToTransfer = JSON.stringify(reqEvent);
         event.dataTransfer.setData("event", eventToTransfer);
     }
 
@@ -26,13 +26,18 @@ class Day extends React.Component {
 
     drop = (event) => {
         event.preventDefault();
-        console.log(event)
         const eventToBeDropped = JSON.parse(event.dataTransfer.getData("event"));
         let appendDay = event.target;
-        
-        while(!appendDay.classList.value.includes("days")){
-            appendDay = event.target.parentElement
+        if(appendDay.classList.value === "weekdays"){
+            appendDay = appendDay.parentElement;
         }
+        else if(appendDay.classList.value.includes("new-event") || appendDay.classList.value.includes("day-short-desc")){
+                appendDay = appendDay.parentElement;
+            }
+        else if(appendDay.classList.value.includes("day-events")){
+                appendDay = event.target.parentElement.parentElement.parentElement.parentElement;
+            }
+
         fetch("http://localhost:3000/events", {
             method: "PATCH",
             headers: {
