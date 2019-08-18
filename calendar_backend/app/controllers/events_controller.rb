@@ -9,22 +9,28 @@ class EventsController < ApplicationController
     begin
       updatedTime = nil
       begin
-         updatedTime = DateTime.parse(params[:event_time])
+        updatedTime = DateTime.parse(params[:event_time])
       rescue ArgumentError
         render json: {
-          errors: {
-            message: 'DateTime.parse raised ArgumentError. Are we passing a valid date to the backend?',
-            errors: ArgumentError
-            }
-          }
-          return
-      end
-        event = Event.create!(title: params[:title], description: params[:description], calendar_id: 1, event_time: updatedTime)
-        # render json: EventSerializer.new(event).to_serialized_json
-        render json: event.as_json(except: [:id, :calendar_id, :updated_at, :created_at])
+                 errors: {
+                   message: "DateTime.parse raised ArgumentError. Are we passing a valid date to the backend?",
+                   errors: ArgumentError,
+                 },
+               }
         return
+      end
+      event = Event.create!(title: params[:title], description: params[:description], calendar_id: 1, event_time: updatedTime)
+      # render json: EventSerializer.new(event).to_serialized_json
+      render json: event.as_json(except: [:id, :calendar_id, :updated_at, :created_at])
+      return
     rescue ActiveRecord::RecordInvalid => invalid
-      render json: {errors: {message: "ActiveRecord::RecordInvalid!", errors: invalid.record.errors}}
+      render json: { errors: { message: "ActiveRecord::RecordInvalid!", errors: invalid.record.errors } }
     end
+  end
+
+  def update
+    event = Event.find_by(title: params[:eventToBeDropped][:title])
+    event.update(:event_time => params[:new_event_time])
+    render json: event.as_json(except: [:id, :calendar_id, :updated_at, :created_at])
   end
 end

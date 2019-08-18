@@ -12,15 +12,50 @@ class Day extends React.Component {
         title: '',
         description: ''
     }
+
+
+    drag = (event) => {
+        const reqEvent = this.props.events.find(reqEvent => reqEvent.title === event.target.innerText)
+        var eventToTransfer = JSON.stringify(reqEvent);
+        event.dataTransfer.setData("event", eventToTransfer);
+    }
+
+    allowDrop = (event) => {
+        event.preventDefault();
+    }
+
+    drop = (event) => {
+        event.preventDefault();
+        console.log(event)
+        const eventToBeDropped = JSON.parse(event.dataTransfer.getData("event"));
+        let appendDay = event.target;
+        
+        while(!appendDay.classList.value.includes("days")){
+            appendDay = event.target.parentElement
+        }
+        fetch("http://localhost:3000/events", {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            },
+            body: JSON.stringify({
+                eventToBeDropped,
+                new_event_time: appendDay.dataset.day
+            })
+        }).then(res => res.json())
+        .then(new_event => {
+            this.props.newEvent(new_event)
+        }) 
+    }
     
     renderEvents = () => {
         if (this.props.events.length === 0) {
             return null;
         }
-
         return this.props.events.map(event => {
             return (
-                <div className="event" draggable key={`event-${event.title}`}>{event.title}</div>
+                <div className="event" onDragStart={(event) => this.drag(event)} draggable="true" key={`event-${event.title}`}>{event.title}</div>
             )
         })
     }
@@ -102,7 +137,7 @@ class Day extends React.Component {
 
     render () {
         return (
-            <div className="col-sm days" id={this.props.name}>
+            <div className="col-sm days" data-day = {this.props.date} onDrop={(event) => this.drop(event)} onDragOver={(event) => this.allowDrop(event)}>
                 <p className="weekdays">{this.props.name}</p>
                 <p className="day-short-desc">
                     {this.props.date.getDate().toString()}

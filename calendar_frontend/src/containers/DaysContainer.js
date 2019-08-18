@@ -11,7 +11,7 @@ const renderDays = (getDay, events, newEventCallback) => {
         const parsedEvents = events.filter(event => {
             let newDate = new Date(event.event_time);
             let reqDate = getDay(dayOfWeek);
-            if (newDate.getDate() === reqDate.getDate()) {
+            if (newDate.getDate() === reqDate.getDate() && newDate.getMonth() === reqDate.getMonth()) {
                 return true;
             }
             return false;
