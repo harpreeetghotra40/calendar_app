@@ -1,8 +1,8 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-// import moment from 'moment';
 import formatErrors from '../util/FormatErrorObject'
+
 
 class Day extends React.Component {
 
@@ -36,9 +36,10 @@ class Day extends React.Component {
             showAddEventDialog: value
         })
     }
+
     handleAddEventButtonClick = () => {
         this.modalFormShow(true);
-    }
+    }   
     
     postEvents = (event) => {
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
@@ -72,10 +73,6 @@ class Day extends React.Component {
         
     }
 
-    renderCurrentEvent(){
-
-    }
-
     renderModal = () => {
         return (
         <Modal show={this.state.showAddEventDialog} onHide={() => this.modalFormShow(false)}>
@@ -86,9 +83,13 @@ class Day extends React.Component {
 
             <Modal.Body>
                 <form onSubmit={() => { console.warn("notimpl") }}>
-                    <input type="text" name="title" className="form-control" id="event-title" value={this.state.eventDialogTitle} onChange={this.onModalFieldChange} />
-                    <textarea name="description" id="event-description" className="form-control" value ={this.state.eventDialogDescription} onChange={this.onModalFieldChange} />
-
+                    <label>
+                        Event Title</label>
+                        <input type="text" name="title" className="form-control" id="event-title" value={this.state.eventDialogTitle} onChange={this.onModalFieldChange} />
+                    
+                    <label>
+                        Event Description</label>
+                        <textarea name="description" id="event-description" className="form-control" value ={this.state.eventDialogDescription} onChange={this.onModalFieldChange} />
                 </form>
             </Modal.Body>
                 <Modal.Footer>
@@ -104,16 +105,16 @@ class Day extends React.Component {
             <div className="col-sm days" id={this.props.name}>
                 <p className="weekdays">{this.props.name}</p>
                 <p className="day-short-desc">
-                    {this.props.date.toString()}
+                    {this.props.date.getDate().toString()}
                 </p>
+                <button className = "new-event" onClick={this.handleAddEventButtonClick}>
+                    + Add new event
+                </button>
                 <div className="container-fluid events-container">
     
                     <div className="day-events">
                         {this.renderEvents()}
                     </div>
-                    <Button variant="primary" onClick={this.handleAddEventButtonClick}>
-                    + Add new event
-                    </Button>
                     {this.renderModal()}
                 </div>
             </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import Day from '../components/Day';
 import formatErrors from '../util/FormatErrorObject'
 
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+const DAYS = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 const renderDays = (getDay, events, newEventCallback) => {
     const newDays = [];

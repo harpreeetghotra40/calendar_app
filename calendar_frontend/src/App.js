@@ -12,7 +12,7 @@ class App extends React.Component {
     currentWeek: moment().week() - 1,
   }
   getDay  = (dayOfWeek) => {
-    return moment().dayOfYear(this.state.currentWeek * 7 + dayOfWeek)._d
+    return moment().dayOfYear(this.state.currentWeek * 7 + dayOfWeek - 1)._d
   }
 
   getDifferentWeek = (weekIterate) => {
