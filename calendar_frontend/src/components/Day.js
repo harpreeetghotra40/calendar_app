@@ -119,7 +119,7 @@ class Day extends React.Component {
     postEvents = (event) => {
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
         return fetch("http://localhost:3000/events",
-            postEventsFetchParams(this.state.title, this.state.description, this.state.date));
+            postEventsFetchParams(this.state.title, this.state.description, this.props.date));
     }
 
     handleModalFormSubmit = (event) => {
