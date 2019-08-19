@@ -72,6 +72,9 @@
     border-radius: .2em;
     overflow: hidden;
 }
+.event-time-container{
+    color: #337ab7;
+}
 
 .new-event {
     font-size: .9em;

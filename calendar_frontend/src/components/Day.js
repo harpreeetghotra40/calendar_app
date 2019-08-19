@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment'
 // import Modal from 'react-bootstrap/Modal'
 // import Button from 'react-bootstrap/Button'
 
@@ -70,7 +71,8 @@ class Day extends React.Component {
                 key={`event-${event.title}-${event.id}`}
                 data-id={`${event.id}`}
             >
-                {event.title}
+                {event.title}  <div className = "event-time-container">{moment(event.event_time).format("hh:mm a")}</div>
+                
             </div>
         );
     }
