@@ -49,7 +49,7 @@ class DaysContainer extends React.Component {
     }
 
     newEvent = (theNewEvent) => {
-        const filteredEvents = this.state.events.filter(event => event.title !== theNewEvent.title)
+        const filteredEvents = this.state.events.filter(event => event.id !== theNewEvent.id)
         const newEvents = [...filteredEvents, theNewEvent]
         this.setState({events: newEvents, modalFormShow: false})
     }

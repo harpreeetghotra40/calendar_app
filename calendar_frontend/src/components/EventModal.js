@@ -100,31 +100,8 @@ export default class EventModal extends Component{
     }
 
     renderModal = () => {
-        return (
-            <Modal onHide={() => this.modalFormShow(false)}>
-
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Event</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <form onSubmit={() => { console.warn("notimpl") }}>
-                        {this.renderTitleForm()}
-                        {this.renderDescriptionForm()}
-                    </form>
-                </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.modalFormShowSet(false)}>Close</Button>
-                        <Button variant="primary" onClick={this.handleModalFormSubmit}>Save changes</Button>
-                    </Modal.Footer>
-            </Modal>
-        );
-    }
-
-
-    render(){
         return(
-            <Modal show={true} onHide={() => this.modalFormShowSet(false)}>
+            <Modal show={true} onHide={() => this.props.modalFormShowSet(false)}>
 
                 <Modal.Header closeButton>
                     <Modal.Title>Add Event</Modal.Title>
@@ -137,10 +114,15 @@ export default class EventModal extends Component{
                     </form>
                 </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.modalFormShowSet(false)}>Close</Button>
+                        <Button variant="secondary" onClick={() => this.props.modalFormShowSet(false)}>Close</Button>
                         <Button variant="primary" onClick={this.handleModalFormSubmit}>Save changes</Button>
                     </Modal.Footer>
             </Modal>
         )
+    }
+
+
+    render(){
+        return this.renderModal();
     }
 }

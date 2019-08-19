@@ -30,7 +30,7 @@ class EventsController < ApplicationController
       )
       # render json: EventSerializer.new(event).to_serialized_json
       render json: event.as_json(
-        except: [:id, :calendar_id, :updated_at, :created_at]
+        except: [:calendar_id, :updated_at, :created_at]
       )
       return
     rescue ActiveRecord::RecordInvalid => invalid
@@ -47,7 +47,7 @@ class EventsController < ApplicationController
     event = Event.find_by(title: params[:eventToBeDropped][:title])
     event.update(event_time: params[:new_event_time])
     render json: event.as_json(
-      except: [:id, :calendar_id, :updated_at, :created_at]
+      except: [:calendar_id, :updated_at, :created_at]
     )
   end
 end

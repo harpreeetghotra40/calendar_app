@@ -37,9 +37,10 @@ function appendDayFromClassListType(appendDayEventTarget) {
 class Day extends React.Component {
 
     drag = (event) => {
-        const reqEvent = this.props.events.find(ev => ev.title === event.target.innerText)
+        const reqEvent = this.props.events.find(ev => ev.id === event.target.dataset.id)
         let eventToTransfer = JSON.stringify(reqEvent);
         event.dataTransfer.setData("event", eventToTransfer);
+        console.log(event.dataTransfer.getData("event"));
     }
 
     allowDrop = (event) => {
@@ -48,7 +49,9 @@ class Day extends React.Component {
 
     drop = (event) => {
         event.preventDefault();
-        const eventToBeDropped = JSON.parse(event.dataTransfer.getData("event"));
+        const eventData = event.dataTransfer.getData("event");
+        console.log(eventData);
+        const eventToBeDropped = JSON.parse(eventData);
         const appendDay = appendDayFromClassListType(event.target);
 
         fetch("http://localhost:3000/events", updateEventFetchParams(eventToBeDropped, appendDay))
@@ -64,7 +67,8 @@ class Day extends React.Component {
                 className="event"
                 onDragStart={(event) => this.drag(event)}
                 draggable="true"
-                key={`event-${event.title}`}
+                key={`event-${event.title}-${event.id}`}
+                data-id={`"${event.id}"`}
             >
                 {event.title}
             </div>
