@@ -4,15 +4,57 @@ import Button from 'react-bootstrap/Button'
 import formatErrors from '../util/FormatErrorObject'
 
 
-class Day extends React.Component {
+function updateEventFetchParams(eventToBeDropped, appendDay) {
+    return ({
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accepts': 'application/json'
+        },
+        body: JSON.stringify({
+            eventToBeDropped,
+            new_event_time: appendDay.dataset.day
+        })
+    });
+}
 
+function appendDayFromClassListType(appendDayEventTarget) {
+    if(appendDayEventTarget.classList.value === "weekdays"){
+        return appendDayEventTarget.parentElement;
+    }
+    else if(appendDayEventTarget.classList.value.includes("new-event") || appendDayEventTarget.classList.value.includes("day-short-desc")){
+            return appendDayEventTarget.parentElement;
+        }
+    else if(appendDayEventTarget.classList.value.includes("day-events")){
+            return appendDayEventTarget.parentElement.parentElement;
+        }
+    else if(appendDayEventTarget.classList.value.includes("event")){
+        return appendDayEventTarget.parentElement.parentElement.parentElement;
+    }
+    return appendDayEventTarget;
+}
+
+function postEventsFetchParams(title, description, date) {
+    return ({
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accepts': 'application/json'
+        },
+        body: JSON.stringify({
+            title: title,
+            description: description,
+            event_time: date
+        })
+    });
+}
+class Day extends React.Component {
 
     state = {
         showAddEventDialog: false,
         title: '',
         description: '',
     }
-
 
     drag = (event) => {
         const reqEvent = this.props.events.find(ev => ev.title === event.target.innerText)
@@ -27,33 +69,26 @@ class Day extends React.Component {
     drop = (event) => {
         event.preventDefault();
         const eventToBeDropped = JSON.parse(event.dataTransfer.getData("event"));
-        let appendDay = event.target;
-        if(appendDay.classList.value === "weekdays"){
-            appendDay = appendDay.parentElement;
-        }
-        else if(appendDay.classList.value.includes("new-event") || appendDay.classList.value.includes("day-short-desc")){
-                appendDay = appendDay.parentElement;
-            }
-        else if(appendDay.classList.value.includes("day-events")){
-                appendDay = appendDay.parentElement.parentElement;
-            }
-        else if(appendDay.classList.value.includes("event")){
-            appendDay = appendDay.parentElement.parentElement.parentElement;
-        }    
-        fetch("http://localhost:3000/events", {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accepts': 'application/json'
-            },
-            body: JSON.stringify({
-                eventToBeDropped,
-                new_event_time: appendDay.dataset.day
-            })
-        }).then(res => res.json())
-        .then(new_event => {
-            this.props.newEvent(new_event)
-        }) 
+        const appendDay = appendDayFromClassListType(event.target);
+
+        fetch("http://localhost:3000/events", updateEventFetchParams(eventToBeDropped, appendDay))
+            .then(res => res.json())
+            .then(new_event => {
+                this.props.newEvent(new_event)
+            }) 
+    }
+
+    renderSingleEvent = (event) => {
+        return (
+            <div
+                className="event"
+                onDragStart={(event) => this.drag(event)}
+                draggable="true"
+                key={`event-${event.title}`}
+            >
+                {event.title}
+            </div>
+        );
     }
     
     renderEvents = () => {
@@ -61,9 +96,7 @@ class Day extends React.Component {
             return null;
         }
         return this.props.events.map(event => {
-            return (
-                <div className="event" onDragStart={(event) => this.drag(event)} draggable="true" key={`event-${event.title}`}>{event.title}</div>
-            )
+            return this.renderSingleEvent(event)
         })
     }
 
@@ -85,18 +118,8 @@ class Day extends React.Component {
     
     postEvents = (event) => {
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-        return fetch("http://localhost:3000/events", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accepts': 'application/json'
-            },
-            body: JSON.stringify({
-                title: this.state.title,
-                description: this.state.description,
-                event_time: this.props.date
-            })
-        });
+        return fetch("http://localhost:3000/events",
+            postEventsFetchParams(this.state.title, this.state.description, this.state.date));
     }
 
     handleModalFormSubmit = (event) => {
@@ -111,34 +134,62 @@ class Day extends React.Component {
                 this.props.newEvent(theNewEvent);
                 this.modalFormShow(false);
             })
+    }
 
-        
+    renderTitleForm = () => {
+        return (
+            <React.Fragment>
+                <label>
+                    Event Title
+                </label>
+                    <input
+                        type="text"
+                        name="title"
+                        className="form-control"
+                        id="event-title"
+                        value={this.state.eventDialogTitle}
+                        onChange={this.onModalFieldChange}
+                    />
+            </React.Fragment>
+        )
+    }
+
+    renderDescriptionForm = () => {
+        return (
+            <React.Fragment>
+                <label>
+                    Event Description
+                </label>
+                    <textarea
+                        name="description"
+                        id="event-description"
+                        className="form-control"
+                        value ={this.state.eventDialogDescription}
+                        onChange={this.onModalFieldChange}
+                    />
+            </React.Fragment>
+        )
     }
 
     renderModal = () => {
         return (
-        <Modal show={this.state.showAddEventDialog} onHide={() => this.modalFormShow(false)}>
+            <Modal show={this.state.showAddEventDialog} onHide={() => this.modalFormShow(false)}>
 
-            <Modal.Header closeButton>
-                <Modal.Title>Add Event</Modal.Title>
-            </Modal.Header>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Event</Modal.Title>
+                </Modal.Header>
 
-            <Modal.Body>
-                <form onSubmit={() => { console.warn("notimpl") }}>
-                    <label>
-                        Event Title</label>
-                        <input type="text" name="title" className="form-control" id="event-title" value={this.state.eventDialogTitle} onChange={this.onModalFieldChange} />
-                    
-                    <label>
-                        Event Description</label>
-                        <textarea name="description" id="event-description" className="form-control" value ={this.state.eventDialogDescription} onChange={this.onModalFieldChange} />
-                </form>
-            </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => this.setState({showAddEventDialog: false})}>Close</Button>
-                    <Button variant="primary" onClick={this.handleModalFormSubmit}>Save changes</Button>
-                </Modal.Footer>
-        </Modal>
+                <Modal.Body>
+                    <form onSubmit={() => { console.warn("notimpl") }}>
+                        {this.renderTitleForm()}
+                        {this.renderDescriptionForm()}
+                    </form>
+                </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => this.setState({showAddEventDialog: false})}>Close</Button>
+                        <Button variant="primary" onClick={this.handleModalFormSubmit}>Save changes</Button>
+                    </Modal.Footer>
+            </Modal>
         );
     }
 
