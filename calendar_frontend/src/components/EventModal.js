@@ -4,7 +4,10 @@ import Button from 'react-bootstrap/Button';
 import formatErrors from '../util/FormatErrorObject'
 
 
-function postEventsFetchParams(title, description, date) {
+function postEventsFetchParams(title, description, date, time) {
+    let eventDate = date.toString().split(" ");
+    eventDate[4] = time;
+    eventDate = eventDate.join(" ")
     return ({
         method: 'POST',
         headers: {
@@ -14,7 +17,7 @@ function postEventsFetchParams(title, description, date) {
         body: JSON.stringify({
             title: title,
             description: description,
-            event_time: date
+            event_time: eventDate
         })
     });
 }
@@ -25,12 +28,13 @@ export default class EventModal extends Component{
         // showAddEventDialog: true,
         title: '',
         description: '',
+        time: ''
     }
 
     postEvents = (event) => { 
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
         return fetch("http://localhost:3000/events",
-            postEventsFetchParams(this.state.title, this.state.description, this.props.date));
+            postEventsFetchParams(this.state.title, this.state.description, this.props.date, this.state.time + ":00"));
     }
 
     handleModalFormSubmit = (event) => {
@@ -99,6 +103,21 @@ export default class EventModal extends Component{
         )
     }
 
+    renderTimeForm = () => {
+        return (
+            <React.Fragment>
+                <label>
+                    Event Time
+                </label>
+                <input className = "form-control" type="time" name="time" min="09:00" max="18:00" required 
+                value={this.state.time}
+                onChange={this.onModalFieldChange
+                }
+                />
+            </React.Fragment>
+        )
+    }
+
     renderModal = () => {
         return(
             <Modal show={true} onHide={() => this.props.modalFormShowSet(false)}>
@@ -111,6 +130,7 @@ export default class EventModal extends Component{
                     <form onSubmit={() => { console.warn("notimpl") }}>
                         {this.renderTitleForm()}
                         {this.renderDescriptionForm()}
+                        {this.renderTimeForm()}
                     </form>
                 </Modal.Body>
                     <Modal.Footer>
