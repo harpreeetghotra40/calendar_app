@@ -24,32 +24,44 @@
     color: white;
 }
 
+/* entire calendar */
 .react-calendar {
-    width: 300px;
     background: transparent;
     border:none;
 }
 
+/* the navigation arrow for toggling monts */
 .react-calendar__navigation__arrow{
     color: white;
     font-size: 1em;
 }
 
+/* navigation arrows for toggling year: disabled for now. */
 .react-calendar__navigation__next2-button, .react-calendar__navigation__prev2-button{
     display: none;
 }
 
+/* styling for weekday name: remove the underline */
 abbr[title], abbr[data-original-title] {
     text-decoration: none;
 }
+
+/* week numbers left-tiles */
+.react-calendar__tile > span{
+    cursor: pointer;
+}
+
+/* turning down the opacity for days from other months */
 .react-calendar__month-view__days__day--neighboringMonth{
     opacity: .2;
 }
 
+/* weekdays tiles */
 .react-calendar__month-view__days__day{
     color: white;
 }
 
+/* weekend tiles */
 .react-calendar__month-view__days__day--weekend{
     color: red;
 }
