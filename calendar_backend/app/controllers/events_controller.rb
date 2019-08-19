@@ -45,9 +45,18 @@ class EventsController < ApplicationController
 
   def update
     event = Event.find_by(title: params[:eventToBeDropped][:title])
-    event.update(event_time: params[:new_event_time])
-    render json: event.as_json(
-      except: [:calendar_id, :updated_at, :created_at]
-    )
+    begin
+      event.update!(event_time: params[:new_event_time])
+      render json: event.as_json(
+        except: [:calendar_id, :updated_at, :created_at]
+      )
+    rescue ActiveRecord::RecordInvalid => invalid
+      render json: {
+        errors: {
+          message: 'ActiveRecord::RecordInvalid',
+          errors: invalid.record.errors
+        }
+      }
+    end
   end
 end
