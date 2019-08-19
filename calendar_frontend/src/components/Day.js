@@ -70,6 +70,7 @@ class Day extends React.Component {
                 draggable="true"
                 key={`event-${event.title}-${event.id}`}
                 data-id={`${event.id}`}
+                data-tag = {`${event.event_tag}`}
             >
                 {event.title}  <div className = "event-time-container">{moment(event.event_time).format("hh:mm a")}</div>
                 
