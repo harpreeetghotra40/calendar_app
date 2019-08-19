@@ -2,10 +2,12 @@ import React from 'react';
 import Day from '../components/Day';
 import formatErrors from '../util/FormatErrorObject'
 import NavBar from '../components/NavBar';
+import  EventModal from "../components/EventModal";
+
 
 const DAYS = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-const renderDays = (getDay, events, newEventCallback) => {
+const renderDays = (getDay, events, newEventCallback, handleAddEventButtonClick) => {
     const newDays = [];
     
     for (let dayOfWeek = 0; dayOfWeek < DAYS.length; dayOfWeek++) {
@@ -17,7 +19,7 @@ const renderDays = (getDay, events, newEventCallback) => {
             }
             return false;
         });
-        newDays.push(<Day name={DAYS[dayOfWeek]} key={getDay(dayOfWeek)} date={getDay(dayOfWeek)} events={parsedEvents} newEvent={newEventCallback}/>)
+        newDays.push(<Day name={DAYS[dayOfWeek]} key={getDay(dayOfWeek)} date={getDay(dayOfWeek)} events={parsedEvents} newEvent={newEventCallback} handleAddEventButtonClick={handleAddEventButtonClick}/>)
     }
     return newDays;
 }
@@ -26,7 +28,9 @@ const renderDays = (getDay, events, newEventCallback) => {
 class DaysContainer extends React.Component {
 
     state = {
-        events: []
+        events: [],
+        modalFormShow: false,
+        selectedDate: null
     }
 
     componentDidMount() {
@@ -47,15 +51,34 @@ class DaysContainer extends React.Component {
     newEvent = (theNewEvent) => {
         const filteredEvents = this.state.events.filter(event => event.title !== theNewEvent.title)
         const newEvents = [...filteredEvents, theNewEvent]
-        this.setState({events: newEvents})
+        this.setState({events: newEvents, modalFormShow: false})
     }
+
+    modalFormShowSet = (value) => {
+        this.setState({modalFormShow: value})
+    }
+    
+    renderEventModal = () => {
+        if (this.state.modalFormShow === true) {
+            // debugger;    
+            return <EventModal newEvent={this.newEvent} date={this.state.selectedDate} modalFormShowSet={this.modalFormShowSet}/>;
+        }
+        return null;
+    }
+
+    handleAddEventButtonClick = (date) => {
+        this.setState({modalFormShow: true, selectedDate: date});
+    }
+
     
     render() {
         return (
             <div className = "days-container">
+            {/* <EventModal handleAddEventButtonClick={this.handleAddEventButtonClick}/> */}
+            {this.renderEventModal()}
             <React.Fragment>
             <NavBar/>
-                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent)}
+                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick)}
             </React.Fragment>
             </div>
         );
