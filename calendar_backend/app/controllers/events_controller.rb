@@ -59,4 +59,21 @@ class EventsController < ApplicationController
       }
     end
   end
+
+  def delete
+    begin
+      event = Event.find_by!(id: params[:id])
+      deleted = event.delete
+      render json: deleted.as_json(
+        only: :id
+      )
+    rescue ActiveRecord::RecordNotFound => e
+      render json: {
+        errors: {
+          message: 'ActiveRecord::RecordNotFound',
+          errors: e
+        }
+      }
+    end
+  end
 end

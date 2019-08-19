@@ -7,7 +7,7 @@ import  EventModal from "../components/EventModal";
 
 const DAYS = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-const renderDays = (getDay, events, newEventCallback, handleAddEventButtonClick) => {
+const renderDays = (getDay, events, newEventCallback, handleAddEventButtonClick, removeEvent) => {
     const newDays = [];
     
     for (let dayOfWeek = 0; dayOfWeek < DAYS.length; dayOfWeek++) {
@@ -19,7 +19,17 @@ const renderDays = (getDay, events, newEventCallback, handleAddEventButtonClick)
             }
             return false;
         });
-        newDays.push(<Day name={DAYS[dayOfWeek]} key={getDay(dayOfWeek)} date={getDay(dayOfWeek)} events={parsedEvents} newEvent={newEventCallback} handleAddEventButtonClick={handleAddEventButtonClick}/>)
+        newDays.push(
+            <Day
+                name={DAYS[dayOfWeek]}
+                key={getDay(dayOfWeek)}
+                date={getDay(dayOfWeek)}
+                events={parsedEvents}
+                newEvent={newEventCallback}
+                handleAddEventButtonClick={handleAddEventButtonClick}
+                removeEvent={removeEvent}
+            />
+        )
     }
     return newDays;
 }
@@ -54,6 +64,12 @@ class DaysContainer extends React.Component {
         this.setState({events: newEvents, modalFormShow: false})
     }
 
+    removeEvent = (id) => {
+        const ID = parseInt(id, 10);
+        const filteredEvents = this.state.events.filter(event => event.id !== ID);
+        this.setState({events: filteredEvents})
+    }
+
     modalFormShowSet = (value) => {
         this.setState({modalFormShow: value})
     }
@@ -78,7 +94,7 @@ class DaysContainer extends React.Component {
             {this.renderEventModal()}
             <React.Fragment>
             <NavBar/>
-                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick)}
+                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick, this.removeEvent)}
             </React.Fragment>
             </div>
         );

@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment'
 // import Modal from 'react-bootstrap/Modal'
-// import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button'
+import formatErrors from '../util/FormatErrorObject';
 
 
 
@@ -15,6 +16,19 @@ function updateEventFetchParams(eventToBeDropped, appendDay) {
         body: JSON.stringify({
             eventToBeDropped,
             new_event_time: appendDay.dataset.day
+        })
+    });
+}
+
+function deleteEventFetchParams(eventIDToBeDeleted) {
+    return ({
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accepts': 'application/json'
+        },
+        body: JSON.stringify({
+            id: eventIDToBeDeleted
         })
     });
 }
@@ -72,8 +86,11 @@ class Day extends React.Component {
                 data-id={`${event.id}`}
                 data-tag = {`${event.event_tag}`}
             >
-                {event.title}  <div className = "event-time-container">{moment(event.event_time).format("hh:mm a")}</div>
-                
+                {event.title}
+                <div className = "event-time-container">{moment(event.event_time).format("hh:mm a")}</div>
+                <Button onClick={this.deleteButtonClicked}>
+                    Delete
+                </Button>
             </div>
         );
     }
@@ -89,6 +106,24 @@ class Day extends React.Component {
 
     addEventClicked = (event) => {
         this.props.handleAddEventButtonClick(this.props.date);
+    }
+
+    deleteButtonClicked = (synEvent) => {
+        const event = Object.assign({}, synEvent);
+        console.assert(event.target.parentElement.className === "event")
+        const ID = event.target.parentElement.dataset.id
+        console.log(ID);
+        fetch("http://localhost:3000/events", deleteEventFetchParams(ID))
+            .then(res => {res.json()})
+            .then(deletedEventResult => {
+                if ((deletedEventResult !== undefined) && (deletedEventResult.errors !== undefined)) {
+                    console.log(deletedEventResult.errors)
+                    alert(formatErrors(deletedEventResult.errors))
+                    return;
+                }
+                this.props.removeEvent(ID)
+            })
+        
     }
     
 

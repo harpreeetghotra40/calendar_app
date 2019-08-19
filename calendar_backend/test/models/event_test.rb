@@ -52,4 +52,20 @@ class EventTest < ActiveSupport::TestCase
       assert_not_nil new_event.title
     end
   end
+
+  test 'cannot delete nonsense event ID' do
+    result = Event.delete(2342342342)
+    assert(result == 0)
+  end
+
+  test 'can delete event' do
+    assert_nothing_raised do 
+      new_event = Event.create!(
+        title: 'hello days',
+        event_time: '2019-08-16T20:32:19.375Z',
+        calendar: Calendar.first
+      )
+      new_event.delete
+    end
+  end
 end
