@@ -28,7 +28,6 @@ class Day extends React.Component {
         event.preventDefault();
         const eventToBeDropped = JSON.parse(event.dataTransfer.getData("event"));
         let appendDay = event.target;
-        debugger
         if(appendDay.classList.value === "weekdays"){
             appendDay = appendDay.parentElement;
         }
