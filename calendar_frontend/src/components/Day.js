@@ -28,6 +28,7 @@ class Day extends React.Component {
         event.preventDefault();
         const eventToBeDropped = JSON.parse(event.dataTransfer.getData("event"));
         let appendDay = event.target;
+        debugger
         if(appendDay.classList.value === "weekdays"){
             appendDay = appendDay.parentElement;
         }
@@ -35,9 +36,11 @@ class Day extends React.Component {
                 appendDay = appendDay.parentElement;
             }
         else if(appendDay.classList.value.includes("day-events")){
-                appendDay = event.target.parentElement.parentElement.parentElement.parentElement;
+                appendDay = appendDay.parentElement.parentElement;
             }
-
+        else if(appendDay.classList.value.includes("event")){
+            appendDay = appendDay.parentElement.parentElement.parentElement;
+        }    
         fetch("http://localhost:3000/events", {
             method: "PATCH",
             headers: {

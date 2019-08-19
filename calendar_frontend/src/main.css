@@ -43,7 +43,7 @@
     background-blend-mode: screen;
     text-align: center;
     border-radius: .2em;
-    max-width: 13%;
+    max-width: 12.5%;
 }
 
 .weekdays {
@@ -78,9 +78,11 @@
     font-size: .8em;
     background-color: white;
     border-radius: .2em;
+    overflow: hidden;
 }
 
 .new-event {
+    font-size: .9em;
     margin: .5em;
     color: #337ab7;
     background: transparent;
