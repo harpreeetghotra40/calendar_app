@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import formatErrors from '../util/FormatErrorObject'
 
 
-function postEventsFetchParams(title, description, date, time) {
+function postEventsFetchParams(title, description, date, time, eventTag) {
     let eventDate = date.toString().split(" ");
     eventDate[4] = time;
     eventDate = eventDate.join(" ")
@@ -17,6 +17,7 @@ function postEventsFetchParams(title, description, date, time) {
         body: JSON.stringify({
             title: title,
             description: description,
+            event_tag: eventTag,
             event_time: eventDate
         })
     });
@@ -28,13 +29,14 @@ export default class EventModal extends Component{
         // showAddEventDialog: true,
         title: '',
         description: '',
+        eventTag: '',
         time: ''
     }
 
     postEvents = (event) => { 
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
         return fetch("http://localhost:3000/events",
-            postEventsFetchParams(this.state.title, this.state.description, this.props.date, this.state.time + ":00"));
+            postEventsFetchParams(this.state.title, this.state.description, this.props.date, this.state.time + ":00", this.state.eventTag));
     }
 
     handleModalFormSubmit = (event) => {
@@ -57,16 +59,6 @@ export default class EventModal extends Component{
             [event.target.name]: event.target.value
         })
     }
-
-    // modalFormShow = (value) => {
-    //     this.setState({
-    //         showAddEventDialog: value
-    //     })
-    // }
-
-    // handleAddEventButtonClick = () => {
-    //     this.modalFormShow(true);
-    // }   
 
     renderTitleForm = () => {
         return (
@@ -103,6 +95,23 @@ export default class EventModal extends Component{
         )
     }
 
+    renderEventTagForm = () => {
+        return (
+            <React.Fragment>
+                <label>
+                    Event Tag
+                </label>
+                    <input
+                        name="eventTag"
+                        id="event-description"
+                        className="form-control"
+                        value ={this.state.eventTag}
+                        onChange={this.onModalFieldChange}
+                    />
+            </React.Fragment>
+        )
+    }
+
     renderTimeForm = () => {
         return (
             <React.Fragment>
@@ -130,6 +139,7 @@ export default class EventModal extends Component{
                     <form onSubmit={() => { console.warn("notimpl") }}>
                         {this.renderTitleForm()}
                         {this.renderDescriptionForm()}
+                        {this.renderEventTagForm()}
                         {this.renderTimeForm()}
                     </form>
                 </Modal.Body>
