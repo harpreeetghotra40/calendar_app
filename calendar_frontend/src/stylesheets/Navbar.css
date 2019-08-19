@@ -65,3 +65,16 @@ abbr[title], abbr[data-original-title] {
 .react-calendar__month-view__days__day--weekend{
     color: red;
 }
+
+.filter-heading{
+    margin-left: .5em;
+    margin-bottom: 1em;
+    font-size: 1.5em;
+    color: #337ab7;
+    font-weight: bold;
+}
+
+.event-filter-text{
+    font-size: 1.2em;
+    margin-left: 1em;
+}

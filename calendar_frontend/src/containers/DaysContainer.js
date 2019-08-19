@@ -40,7 +40,8 @@ class DaysContainer extends React.Component {
     state = {
         events: [],
         modalFormShow: false,
-        selectedDate: null
+        selectedDate: null,
+        eventTags: []
     }
 
     componentDidMount() {
@@ -53,9 +54,20 @@ class DaysContainer extends React.Component {
                 alert(formatErrors(eventsJSONParsed.errors));
                 return;
             }
+            this.getAllFilters(eventsJSONParsed)
             this.setState({events: eventsJSONParsed});
         })
 
+    }
+
+    getAllFilters = (events) => {
+        let eventFilters = []
+        events.forEach(event => {
+            if(!eventFilters.includes(event.event_tag)){
+                eventFilters.push(event.event_tag)
+            }
+        })
+        this.setState({eventTags: eventFilters})
     }
 
     newEvent = (theNewEvent) => {
@@ -90,10 +102,9 @@ class DaysContainer extends React.Component {
     render() {
         return (
             <div className = "days-container">
-            {/* <EventModal handleAddEventButtonClick={this.handleAddEventButtonClick}/> */}
             {this.renderEventModal()}
             <React.Fragment>
-            <NavBar/>
+            <NavBar eventTags = {this.state.eventTags}/>
                 {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick, this.removeEvent)}
             </React.Fragment>
             </div>
