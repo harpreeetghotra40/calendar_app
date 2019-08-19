@@ -12,7 +12,7 @@ class NavBar extends React.Component {
     render(){
         return (
             <div className = "calendar-navbar">
-                <Calendar calendarType="US"/>
+                <Calendar calendarType="US" showWeekNumbers="true"/>
             </div>
         );
     }
