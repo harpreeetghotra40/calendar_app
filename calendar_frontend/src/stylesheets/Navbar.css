@@ -19,3 +19,28 @@
     color: red;
     margin-left: .5em;
 }
+.react-calendar__navigation__label{
+    font-size: 1.5em;
+    color: white;
+}
+
+.react-calendar {
+    background: transparent;
+    border:none;
+}
+
+.react-calendar__navigation__next2-button, .react-calendar__navigation__prev2-button{
+    display: none;
+}
+
+abbr[title], abbr[data-original-title] {
+    text-decoration: none;
+}
+
+.react-calendar__month-view__days__day{
+    color: white;
+}
+
+.react-calendar__month-view__days__day--weekend{
+    color: red;
+}

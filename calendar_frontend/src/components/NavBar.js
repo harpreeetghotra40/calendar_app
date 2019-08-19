@@ -12,8 +12,7 @@ class NavBar extends React.Component {
     render(){
         return (
             <div className = "calendar-navbar">
-                <p className = "navbar-heading" id = "navbar-month">{MONTHS[moment().month()]}</p>
-                <p className = "navbar-heading" id = "navbar-year">{moment().year()}</p>
+                <Calendar calendarType="US"/>
             </div>
         );
     }
