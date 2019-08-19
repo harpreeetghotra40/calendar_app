@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.css';
-import NavBar from './components/NavBar';
+import './stylesheets/App.css';
+import './stylesheets/main.css'
 import DaysContainer from './containers/DaysContainer';
 import moment from 'moment';
 import Navigation from './components/Navigation';
@@ -22,8 +22,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <NavBar/>
-        <Navigation navigate = {this.getDifferentWeek}/>
+        <Navigation navigate = {this.getDifferentWeek} currentWeek = {this.state.currentWeek}/>
         <DaysContainer firstDate={this.state.firstDayOfSelectedWeek} getDayFunction = {this.getDay}/>
       </div>
     );

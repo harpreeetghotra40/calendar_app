@@ -5,17 +5,6 @@
     font: bold 14px/14px "Maison Neue", sans-serif;
 }
 
-.my-navbar {
-    /* background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255, 255, 255, 0.50) 47%, rgba(0, 0, 0, 0.50) 100%); */
-    background-blend-mode: screen;
-    text-align: center;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
-}
-
-.my-navbar p {
-    padding: 1em;
-}
-
 .arrows-container {
     display: inline-flex;
     vertical-align: middle;
@@ -33,17 +22,19 @@
     cursor: pointer;
 }
 
-.days-left-container {}
+.days-container {
+    margin: 0;
+}
 
 .days {
     box-shadow: 0 1px 2px rgba(25,25,25,0.2);
     display: inline-block;
     vertical-align: top;
-    margin: .5em .1em;
+    margin: .5em 0;
     background-blend-mode: screen;
     text-align: center;
     border-radius: .2em;
-    max-width: 14%;
+    max-width: 11.42%;
     padding: 0 5px;
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Day from '../components/Day';
 import formatErrors from '../util/FormatErrorObject'
+import NavBar from '../components/NavBar';
 
 const DAYS = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -51,9 +52,12 @@ class DaysContainer extends React.Component {
     
     render() {
         return (
+            <div className = "days-container">
             <React.Fragment>
+            <NavBar/>
                 {renderDays( this.props.getDayFunction, this.state.events, this.newEvent)}
             </React.Fragment>
+            </div>
         );
     }
 }
