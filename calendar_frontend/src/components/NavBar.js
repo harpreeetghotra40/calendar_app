@@ -16,7 +16,7 @@ class NavBar extends React.Component {
     }
     
     renderFilterForm = () => {
-        console.log(this.props.eventTags)
+        // console.log(this.props.eventTags)
         return (
             <div className = "filters-container">
                 {
@@ -24,6 +24,17 @@ class NavBar extends React.Component {
                 }  
             </div>
         )
+    }
+
+    toggleWeekFunc = (event) => {
+        this.props.toggleCurrentWeek(event.target.innerText)
+    }
+
+    componentDidMount(){
+        const weekNumbers = document.querySelectorAll('.react-calendar__tile span')
+        weekNumbers.forEach(weekNum => {
+            weekNum.addEventListener('click', this.toggleWeekFunc)
+        })
     }
     
     render(){

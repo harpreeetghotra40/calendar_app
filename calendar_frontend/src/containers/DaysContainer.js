@@ -104,7 +104,7 @@ class DaysContainer extends React.Component {
             <div className = "days-container">
             {this.renderEventModal()}
             <React.Fragment>
-            <NavBar eventTags = {this.state.eventTags}/>
+            <NavBar eventTags = {this.state.eventTags} toggleCurrentWeek = {this.props.toggleWeek}/>
                 {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick, this.removeEvent)}
             </React.Fragment>
             </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment'
-// import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+// import MaterialIcon , {colorPalette} from 'material-icons-react';
 import formatErrors from '../util/FormatErrorObject';
 
 
@@ -55,7 +54,7 @@ class Day extends React.Component {
         const reqEvent = this.props.events.find(ev => ev.id == event.target.dataset.id)
         let eventToTransfer = JSON.stringify(reqEvent);
         event.dataTransfer.setData("event", eventToTransfer);
-        console.log(event.dataTransfer.getData("event"));
+        // console.log(event.dataTransfer.getData("event"));
     }
 
     allowDrop = (event) => {
@@ -65,7 +64,7 @@ class Day extends React.Component {
     drop = (event) => {
         event.preventDefault();
         const eventData = event.dataTransfer.getData("event");
-        console.log(eventData);
+        // console.log(eventData);
         const eventToBeDropped = JSON.parse(eventData);
         const appendDay = appendDayFromClassListType(event.target);
 
@@ -87,10 +86,11 @@ class Day extends React.Component {
                 data-tag = {`${event.event_tag}`}
             >
                 {event.title}
-                <div className = "event-time-container">{moment(event.event_time).format("hh:mm a")}</div>
-                <Button onClick={this.deleteButtonClicked}>
+                <span onClick={this.deleteButtonClicked} className = "delete-event">
                     Delete
-                </Button>
+                </span>
+                <div className = "event-time-container">{moment(event.event_time).format("hh:mm a")}</div>
+                
             </div>
         );
     }

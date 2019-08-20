@@ -16,15 +16,18 @@ class App extends React.Component {
   }
 
   getDifferentWeek = (weekIterate) => {
-    console.log(this.state.currentWeek)
     this.setState({currentWeek: this.state.currentWeek + weekIterate})
+  }
+
+  toggleCurrentWeek = (week) => {
+    this.setState({currentWeek: week - 1})
   }
 
   render() {
     return (
       <div className="App">
         {/* <Navigation navigate = {this.getDifferentWeek} currentWeek = {this.state.currentWeek}/> */}
-        <DaysContainer firstDate={this.state.firstDayOfSelectedWeek} getDayFunction = {this.getDay}/>
+        <DaysContainer firstDate={this.state.firstDayOfSelectedWeek} getDayFunction = {this.getDay} toggleWeek = {this.toggleCurrentWeek}/>
       </div>
     );
   }

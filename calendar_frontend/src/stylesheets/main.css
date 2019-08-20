@@ -97,3 +97,9 @@
 #event-title {
     margin-bottom: 1em;
 }
+
+.delete-event{
+    position: sticky;
+    float: right;
+    top: 0;
+}
