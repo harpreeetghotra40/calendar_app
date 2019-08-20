@@ -1,6 +1,6 @@
 import React from 'react';
 // import {browserHistory} from 'react-router'
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import './stylesheets/App.css';
 import './stylesheets/main.css'
 import DaysContainer from './containers/DaysContainer';
@@ -8,7 +8,7 @@ import moment from 'moment';
 import Navigation from './components/Navigation';
 import Authentication from './util/Authentication';
 import Signup from './components/Signup';
-
+import Login from './components/Login'
 // console.warn(Authentication)
 
 class App extends React.Component {
@@ -42,7 +42,7 @@ class App extends React.Component {
       let newAuth = new Authentication
       const locallyStoredUser = newAuth.fromLocalStorage();
       if (locallyStoredUser === null) {
-        newAuth.login()
+        // newAuth.login()
       }
     }
   }
@@ -64,7 +64,13 @@ class App extends React.Component {
 
   renderLoginOrHome = () => {
     if (this.state.currentUser === null) {
-      return <Route exact path='/signup' component={Signup}/>
+      return (
+        <>
+          <Route exact path='/signup' component={Signup} />
+          <Route exact path='/login' component={Login}/>
+          <Redirect to='/signup'/>
+        </>
+      )
     }
     return (
       <Route exact path='/'>

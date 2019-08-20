@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   post "/users", to: "users#create"
-  post "/login", to: "users#login"
+  post "/login", to: "auth#create"
 
   get "/users/:id", to: "users#show"
 

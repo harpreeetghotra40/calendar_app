@@ -14,7 +14,6 @@ class UsersController < ApplicationController
       render json: {
         jwt: token,
         username: user.name,
-        id: user.id,
       }, status: :created
     rescue ActiveRecord::RecordInvalid => invalid
       render json: {

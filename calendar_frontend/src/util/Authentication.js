@@ -60,9 +60,8 @@ class Authentication {
 
     signup = (name, username, password) => {
         const requestOptions = signUpRequestOptions(name, username, password);
-        fetch("http://localhost:3000/users", requestOptions)
-            .then(response => response.json())
-            .then(res => console.log(res))
+        return (fetch("http://localhost:3000/users", requestOptions)
+            .then(response => response.json()))
     }
 }
 

@@ -1,8 +1,9 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Authentication from '../util/Authentication';
-
+import formatErrors from '../util/FormatErrorObject'
 import '../stylesheets/SignUp.css'
 
 
@@ -24,7 +25,15 @@ class Signup extends React.Component {
     submitHandler = (event) => {
         event.preventDefault();
         let newAuth = new Authentication
-        newAuth.signup(this.state.name, this.state.email, this.state.password);
+        const authPromise = newAuth.signup(this.state.name, this.state.email, this.state.password);
+        authPromise.then(auth => {
+            console.log(auth);
+            if (auth.errors !== undefined) {
+                alert(formatErrors(auth));
+                return;
+            }
+            // <Redirect to='/'/>
+        })
       }
 
     render() {
@@ -54,6 +63,8 @@ class Signup extends React.Component {
                 <Button variant="primary" type="submit">
                     Create Account
                 </Button>
+
+                <Link to='/login'>Login instead...</Link>
                 </Form>
           </div>
         );
