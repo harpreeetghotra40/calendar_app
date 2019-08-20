@@ -34,10 +34,11 @@ class Authentication {
     // https://jasonwatmore.com/post/2019/04/06/react-jwt-authentication-tutorial-example#authentication-service-js
     fromLocalStorage = () => {
         const item = localStorage.getItem('currentUser');
-        if (item === null) {
+        if ((item === null) || (item === undefined) ) {
             console.log('No cached login creds.');
-            return item;
+            return null;
         }
+        console.log(item);
         const parsed = JSON.parse(item);
         console.warn(parsed);
         return parsed;
@@ -56,6 +57,7 @@ class Authentication {
             .then(response => {
                 console.log(response);
                 if (response.errors === undefined) {
+                    console.assert(response.jwt !== undefined)
                     localStorage.setItem('currentUser', JSON.stringify(response.jwt))
                 }
                 return response;

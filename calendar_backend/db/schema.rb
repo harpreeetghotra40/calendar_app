@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_20_135241) do
+ActiveRecord::Schema.define(version: 2019_08_20_220017) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -36,8 +36,11 @@ ActiveRecord::Schema.define(version: 2019_08_20_135241) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "calendar_id"
+    t.index ["calendar_id"], name: "index_users_on_calendar_id"
   end
 
   add_foreign_key "calendars", "users"
   add_foreign_key "events", "calendars"
+  add_foreign_key "users", "calendars"
 end

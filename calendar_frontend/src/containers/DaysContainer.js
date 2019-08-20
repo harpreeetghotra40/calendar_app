@@ -65,6 +65,7 @@ class DaysContainer extends React.Component {
                 alert(formatErrors(eventsJSONParsed.errors));
                 return;
             }
+            console.log("got events: ", eventsJSONParsed)
             this.getAllFilters(eventsJSONParsed)
             this.setState({events: eventsJSONParsed});
         })

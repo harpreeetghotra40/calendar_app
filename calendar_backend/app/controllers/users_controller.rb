@@ -9,11 +9,13 @@ class UsersController < ApplicationController
 
   def create
     begin
-      user = User.create!(user_params)
-      token = encode_token(user_id: user.id)
+      @user = User.create!(user_params)
+      new_calendar = Calendar.create!(user_id: @user.id);
+      @user.update(calendar_id: new_calendar.id)
+      token = encode_token(user_id: @user.id)
       render json: {
         jwt: token,
-        username: user.name,
+        username: @user.name,
       }, status: :created
     rescue ActiveRecord::RecordInvalid => invalid
       render json: {

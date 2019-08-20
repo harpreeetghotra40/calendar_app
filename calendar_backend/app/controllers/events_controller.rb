@@ -5,7 +5,12 @@ class EventsController < ApplicationController
     # events = Event.where(:calendar_id => params[:calendar_id])
     # byebug
     
-    render json: EventSerializer.new(Event.where(:calendar_id => params[:user_id])).to_serialized_json
+    # Event.where(:calendar => params[:user_id])
+    @calendar = Calendar.find_by(id: current_user.calendar_id)
+    
+    # byebug
+    @events = @calendar.events
+    render json: EventSerializer.new(@events).to_serialized_json
   end
 
   def create
