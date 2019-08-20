@@ -47,14 +47,14 @@ class Signup extends React.Component {
                 <h2>Create Account</h2>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" name = "name" onChange = {this.onChangeHandler} placeholder="Enter name" />
+                    <Form.Control type="text" required name = "name" onChange = {this.onChangeHandler} placeholder="Enter name" />
                     {/* <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                     </Form.Text> */}
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" name = "email" onChange = {this.onChangeHandler} placeholder="Enter email" />
+                    <Form.Control type="email" required name = "email" onChange = {this.onChangeHandler} placeholder="Enter email" />
                     <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                     </Form.Text>
@@ -62,13 +62,13 @@ class Signup extends React.Component {
                 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name = "password" onChange = {this.onChangeHandler}placeholder="Password" />
+                    <Form.Control type="password" required name = "password" onChange = {this.onChangeHandler}placeholder="Password" />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Create Account
                 </Button>
 
-                <Link to='/login'>Login instead...</Link>
+                <Link to='/login' className = "toggle-form">Login instead...</Link>
                 </Form>
           </div>
         );
