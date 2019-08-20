@@ -1,4 +1,5 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom'
 import Day from '../components/Day';
 import formatErrors from '../util/FormatErrorObject'
 import NavBar from '../components/NavBar';
@@ -112,4 +113,5 @@ class DaysContainer extends React.Component {
     }
 }
 
-export default DaysContainer;
+// export default DaysContainer;
+export default withRouter(DaysContainer)

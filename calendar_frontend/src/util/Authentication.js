@@ -28,6 +28,10 @@ class Authentication {
         return parsed;
     }
 
+    clearLocalStorage = () => {
+        // https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear
+        localStorage.clear();
+    }
 
 
     login = (username, password) => {
@@ -39,5 +43,7 @@ class Authentication {
             })
     }
 }
+
+console.warn("YO");
 
 export default Authentication;

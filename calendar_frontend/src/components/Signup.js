@@ -5,7 +5,9 @@ import '../stylesheets/SignUp.css'
 
 
 class Signup extends React.Component {
-
+    componentDidMount() {
+        // return history.push('/signup');
+    }
     render() {
         return (
             <div className = "form-container">
