@@ -9,7 +9,7 @@ import Navigation from './components/Navigation';
 import Authentication from './util/Authentication';
 import Signup from './components/Signup';
 
-console.warn(Authentication)
+// console.warn(Authentication)
 
 class App extends React.Component {
 
@@ -39,13 +39,15 @@ class App extends React.Component {
 
   componentDidMount() {
     if (this.state.currentUser ===  null) {
-      console.log(Authentication.fromLocalStorage);
-      const locallyStoredUser = Authentication.fromLocalStorage();
-      // if (locallyStoredUser === null) {
-      //   Authentication.login()
-      // }
+      let newAuth = new Authentication
+      const locallyStoredUser = newAuth.fromLocalStorage();
+      if (locallyStoredUser === null) {
+        newAuth.login()
+      }
     }
   }
+
+  
 
   logoutClick = (event) => {
     console.warn("notimpl");

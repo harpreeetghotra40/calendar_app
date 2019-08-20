@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get '/users/:id', to: 'users#show'
+  post "/users", to: "users#create"
+  post "/login", to: "users#login"
 
-  get '/calendars/:id' => 'calendars#show'
+  get "/users/:id", to: "users#show"
+
+  get "/calendars/:id" => "calendars#show"
 
   #events routes
-  get '/events' => 'events#index'
-  post '/events' => 'events#create'
-  patch '/events' => 'events#update'
-  delete '/events' => 'events#delete'
+  get "/events" => "events#index"
+  post "/events" => "events#create"
+  patch "/events" => "events#update"
+  delete "/events" => "events#delete"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

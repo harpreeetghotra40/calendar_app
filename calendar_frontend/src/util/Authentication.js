@@ -1,5 +1,3 @@
-
-
 function loginRequestOptions(username, password){
     const requestOptions = {
         method: 'POST',
@@ -9,6 +7,23 @@ function loginRequestOptions(username, password){
         body: JSON.stringify({
             username,
             password
+        })
+    }
+    return requestOptions;
+}
+
+function signUpRequestOptions(name, email, password){
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user: {
+                name,
+                email,
+                password
+            }
         })
     }
     return requestOptions;
@@ -39,11 +54,16 @@ class Authentication {
         fetch("http://localhost:3000/login", requestOptions)
             .then(response => {
                 console.log(JSON.stringify(response))
-                debugger;
+                // debugger;
             })
     }
-}
 
-console.warn("YO");
+    signup = (name, username, password) => {
+        const requestOptions = signUpRequestOptions(name, username, password);
+        fetch("http://localhost:3000/users", requestOptions)
+            .then(response => response.json())
+            .then(res => console.log(res))
+    }
+}
 
 export default Authentication;

@@ -2,18 +2,9 @@
 
 class UsersController < ApplicationController
   skip_before_action :authorized, only: [:create]
-  def show
-    begin
-      user = User.find(params[:id])
-      render json: user, only: [:name, :email]
-    rescue ActiveRecord::RecordNotFound => invalid
-      render json: {
-        errors: {
-          message: 'user not found',
-          errors: invalid
-        }
-      }, status: :forbidden
-    end
+
+  def login
+    byebug
   end
 
   def create
@@ -21,14 +12,16 @@ class UsersController < ApplicationController
       user = User.create!(user_params)
       token = encode_token(user_id: user.id)
       render json: {
-        jwt: token
+        jwt: token,
+        username: user.name,
+        id: user.id,
       }, status: :created
     rescue ActiveRecord::RecordInvalid => invalid
       render json: {
         errors: {
-          message: 'user info not valid!',
-          errors: invalid
-        }
+          message: "user info not valid!",
+          errors: invalid,
+        },
       }, status: :unauthorized
     end
   end
