@@ -5,8 +5,10 @@ function loginRequestOptions(username, password){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username,
-            password
+            user: {
+                username,
+                password
+            }
         })
     }
     return requestOptions;
@@ -34,7 +36,7 @@ class Authentication {
     // https://jasonwatmore.com/post/2019/04/06/react-jwt-authentication-tutorial-example#authentication-service-js
     fromLocalStorage = () => {
         const item = localStorage.getItem('currentUser');
-        if ((item === null) || (item === undefined) ) {
+        if ((item === null) || (item === undefined) || (item === "undefined")) {
             console.log('No cached login creds.');
             return null;
         }
@@ -52,7 +54,7 @@ class Authentication {
 
     login = (username, password) => {
         const requestOptions = loginRequestOptions(username, password);
-        fetch("http://localhost:3000/login", requestOptions)
+        return fetch("http://localhost:3000/login", requestOptions)
             .then(response => response.json())
             .then(response => {
                 console.log(response);

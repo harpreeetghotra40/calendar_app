@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Authentication from '../util/Authentication';
-import formatErrors from '../util/FormatErrorObject'
+import formatErrors from '../util/FormatErrorObject';
 import '../stylesheets/SignUp.css'
 
 

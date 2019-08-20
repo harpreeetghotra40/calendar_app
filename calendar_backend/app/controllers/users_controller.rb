@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     rescue ActiveRecord::RecordInvalid => invalid
       render json: {
         errors: {
-          message: "user info not valid!",
+          message: ["user info not valid!"],
           errors: invalid,
         },
       }, status: :unauthorized

@@ -1,7 +1,9 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Authentication from '../util/Authentication';
+import formatErrors from '../util/FormatErrorObject';
 
 import '../stylesheets/SignUp.css'
 
@@ -10,7 +12,8 @@ class Signup extends React.Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        submitted: false
     }
     componentDidMount() {
         // return history.push('/signup');
@@ -23,9 +26,20 @@ class Signup extends React.Component {
     submitHandler = (event) => {
         event.preventDefault();
         let newAuth = new Authentication
-        newAuth.login(this.state.email, this.state.password);
+        newAuth.login(this.state.email, this.state.password)
+            .then(auth => {
+                console.log(auth);
+                if (auth.errors !== undefined) {
+                    alert(formatErrors(auth))
+                    return;
+                }
+                this.setState({submitted: true})
+            })
       }
     render() {
+        if (this.state.submitted) {
+            return (<Redirect to='/'/>)
+        }
         return (
             <div className = "form-container">
 

@@ -27,7 +27,7 @@ class EventsController < ApplicationController
         }
         return
       end
-      byebug
+      # byebug
       event = Event.create!(
         title: params[:title],
         description: params[:description],
