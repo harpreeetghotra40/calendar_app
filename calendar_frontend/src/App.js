@@ -45,7 +45,7 @@ class App extends React.Component {
 
   componentDidMount() {
     if (this.state.currentUser ===  null) {
-      let newAuth = new Authentication
+      const newAuth = new Authentication
       const locallyStoredUser = newAuth.fromLocalStorage();
       if (locallyStoredUser !== null) {
         this.setState({currentUser: locallyStoredUser})
@@ -58,7 +58,8 @@ class App extends React.Component {
   logoutClick = (event) => {
     console.warn("notimpl");
     this.setState({currentUser: null});
-    Authentication.clearLocalStorage();
+    const newAuth = new Authentication
+    newAuth.clearLocalStorage();
     
   }
 
