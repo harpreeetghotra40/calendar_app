@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   get "/users/:id", to: "users#show"
 
-  get "/calendars/:id" => "calendars#show"
+  get "/calendar" => "calendars#show"
 
   #events routes
   get "/events" => "events#index"

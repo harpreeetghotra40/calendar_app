@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import formatErrors from '../util/FormatErrorObject'
 
 
-function postEventsFetchParams(title, description, date, time, eventTag) {
+function postEventsFetchParams(title, description, date, time, eventTag, currentUser) {
     let eventDate = date.toString().split(" ");
     eventDate[4] = time;
     eventDate = eventDate.join(" ")
@@ -12,7 +12,8 @@ function postEventsFetchParams(title, description, date, time, eventTag) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accepts': 'application/json'
+            'Accepts': 'application/json',
+            'Authorization': `Bearer ${currentUser}`
         },
         body: JSON.stringify({
             title: title,
@@ -36,7 +37,7 @@ export default class EventModal extends Component{
     postEvents = (event) => { 
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
         return fetch("http://localhost:3000/events",
-            postEventsFetchParams(this.state.title, this.state.description, this.props.date, this.state.time + ":00", this.state.eventTag));
+            postEventsFetchParams(this.state.title, this.state.description, this.props.date, this.state.time + ":00", this.state.eventTag, this.props.currentUser));
     }
 
     handleModalFormSubmit = (event) => {

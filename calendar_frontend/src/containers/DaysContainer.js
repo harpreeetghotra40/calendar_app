@@ -69,6 +69,16 @@ class DaysContainer extends React.Component {
             this.setState({events: eventsJSONParsed});
         })
 
+        fetch("http://localhost:3000/calendar", {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.currentUser}`
+            }
+        }).then(res => res.json())
+        .then(calendarParsed => {
+            console.log("Got calendar: ", calendarParsed);
+        })
+
     }
 
     getAllFilters = (events) => {
@@ -100,7 +110,12 @@ class DaysContainer extends React.Component {
     renderEventModal = () => {
         if (this.state.modalFormShow === true) {
             // debugger;    
-            return <EventModal newEvent={this.newEvent} date={this.state.selectedDate} modalFormShowSet={this.modalFormShowSet}/>;
+            return <EventModal
+                newEvent={this.newEvent}
+                date={this.state.selectedDate}
+                modalFormShowSet={this.modalFormShowSet}
+                currentUser={this.props.currentUser}
+                />;
         }
         return null;
     }
@@ -116,7 +131,13 @@ class DaysContainer extends React.Component {
             {this.renderEventModal()}
             <React.Fragment>
             <NavBar eventTags = {this.state.eventTags} toggleCurrentWeek = {this.props.toggleWeek}/>
-                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick, this.removeEvent, this.props.currentUser)}
+                {renderDays(
+                    this.props.getDayFunction,
+                    this.state.events,
+                    this.newEvent,
+                    this.handleAddEventButtonClick,
+                    this.removeEvent,
+                    this.props.currentUser)}
             </React.Fragment>
             </div>
         );
