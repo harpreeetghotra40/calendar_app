@@ -1,0 +1,32 @@
+.form-container{
+    margin: 20vh auto;
+    max-width: 80vw;
+}
+
+.login-form{
+    border: 2px solid #337ab7;
+    padding: 1em;
+    border-radius: .5em;
+    width: 40%;
+    vertical-align: top;
+    margin-right: 6vw;
+    margin-top: 3em;
+    display: inline-block;
+    background: white;
+}
+
+.separator{
+    vertical-align: top;
+    margin-top: 10em;
+    display: inline-block;
+}
+
+.signup-form{
+    border: 2px solid #337ab7;
+    padding: 1em;
+    border-radius: .5em;
+    margin-left: 6.5vw;
+    width: 40%;
+    display: inline-block;
+    background: white;
+}
