@@ -8,7 +8,7 @@ import  EventModal from "../components/EventModal";
 
 const DAYS = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-const renderDays = (getDay, events, newEventCallback, handleAddEventButtonClick, removeEvent) => {
+const renderDays = (getDay, events, newEventCallback, handleAddEventButtonClick, removeEvent, currentUser) => {
     const newDays = [];
     
     for (let dayOfWeek = 0; dayOfWeek < DAYS.length; dayOfWeek++) {
@@ -29,6 +29,7 @@ const renderDays = (getDay, events, newEventCallback, handleAddEventButtonClick,
                 newEvent={newEventCallback}
                 handleAddEventButtonClick={handleAddEventButtonClick}
                 removeEvent={removeEvent}
+                currentUser={currentUser}
             />
         )
     }
@@ -45,9 +46,18 @@ class DaysContainer extends React.Component {
         eventTags: []
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
+        if (this.props.currentUser === null) {
+            return;
+        }
+        console.log(this.props.currentUser)
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-        fetch("http://localhost:3000/events")
+        fetch("http://localhost:3000/events", {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${this.props.currentUser}`
+            }
+        })
         .then(res => res.json())
         .then(eventsJSONParsed => {
             if(eventsJSONParsed.errors) {
@@ -106,7 +116,7 @@ class DaysContainer extends React.Component {
             {this.renderEventModal()}
             <React.Fragment>
             <NavBar eventTags = {this.state.eventTags} toggleCurrentWeek = {this.props.toggleWeek}/>
-                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick, this.removeEvent)}
+                {renderDays( this.props.getDayFunction, this.state.events, this.newEvent, this.handleAddEventButtonClick, this.removeEvent, this.props.currentUser)}
             </React.Fragment>
             </div>
         );

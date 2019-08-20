@@ -12,7 +12,8 @@ class Signup extends React.Component {
     state = {
         name:'',
         email: '',
-        password: ''
+        password: '',
+        submitted: false
     }
     componentDidMount() {
         // return history.push('/signup');
@@ -32,11 +33,14 @@ class Signup extends React.Component {
                 alert(formatErrors(auth));
                 return;
             }
-            // <Redirect to='/'/>
+            this.setState({submitted: true});
         })
       }
 
     render() {
+        if (this.state.submitted) {
+            return (<Redirect to='/'/>)
+        }
         return (
             <div className = "form-container">
                 <Form className = "signup-form" onSubmit={this.submitHandler}>

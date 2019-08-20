@@ -11,12 +11,18 @@ import Signup from './components/Signup';
 import Login from './components/Login'
 // console.warn(Authentication)
 
+function localCreds() {
+  let newAuth = new Authentication
+  return newAuth.fromLocalStorage();
+
+}
+
 class App extends React.Component {
 
   state = {
     firstDayOfSelectedWeek: new Date(),
     currentWeek: moment().week() - 1,
-    currentUser: null
+    currentUser: localCreds()
   }
   getDay  = (dayOfWeek) => {
     return moment().dayOfYear(this.state.currentWeek * 7 + dayOfWeek - 1)._d
@@ -41,8 +47,8 @@ class App extends React.Component {
     if (this.state.currentUser ===  null) {
       let newAuth = new Authentication
       const locallyStoredUser = newAuth.fromLocalStorage();
-      if (locallyStoredUser === null) {
-        // newAuth.login()
+      if (locallyStoredUser !== null) {
+        this.setState({currentUser: locallyStoredUser})
       }
     }
   }
@@ -64,10 +70,9 @@ class App extends React.Component {
 
   renderLoginOrHome = () => {
     if (this.state.currentUser === null) {
+      console.log('no cached creds, redirecting to signup page')
       return (
         <>
-          <Route exact path='/signup' component={Signup} />
-          <Route exact path='/login' component={Login}/>
           <Redirect to='/signup'/>
         </>
       )
@@ -79,6 +84,7 @@ class App extends React.Component {
           firstDate = {this.state.firstDayOfSelectedWeek}
           getDayFunction = {this.getDay}
           toggleWeek = {this.toggleCurrentWeek}
+          currentUser = {this.state.currentUser}
         />
       </Route>
     );
@@ -88,6 +94,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <BrowserRouter >
+          <Route exact path='/signup' component={Signup} />
+          <Route exact path='/login' component={Login}/>
+
           {this.renderLoginOrHome()}
         </BrowserRouter>
       </div>

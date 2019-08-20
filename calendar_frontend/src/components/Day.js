@@ -5,12 +5,13 @@ import formatErrors from '../util/FormatErrorObject';
 
 
 
-function updateEventFetchParams(eventToBeDropped, appendDay) {
+function updateEventFetchParams(eventToBeDropped, appendDay, currentUser) {
     return ({
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',
-            'Accepts': 'application/json'
+            'Accepts': 'application/json',
+            'Authorization': `Bearer ${currentUser}`
         },
         body: JSON.stringify({
             eventToBeDropped,
@@ -19,12 +20,14 @@ function updateEventFetchParams(eventToBeDropped, appendDay) {
     });
 }
 
-function deleteEventFetchParams(eventIDToBeDeleted) {
+function deleteEventFetchParams(eventIDToBeDeleted, currentUser) {
     return ({
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Accepts': 'application/json'
+            'Accepts': 'application/json',
+            'Authorization': `Bearer ${currentUser}`
+
         },
         body: JSON.stringify({
             id: eventIDToBeDeleted
@@ -67,8 +70,8 @@ class Day extends React.Component {
         // console.log(eventData);
         const eventToBeDropped = JSON.parse(eventData);
         const appendDay = appendDayFromClassListType(event.target);
-
-        fetch("http://localhost:3000/events", updateEventFetchParams(eventToBeDropped, appendDay))
+        console.assert(this.props.currentUser !== null);
+        fetch("http://localhost:3000/events", updateEventFetchParams(eventToBeDropped, appendDay, this.props.currentUser))
             .then(res => res.json())
             .then(new_event => {
                 this.props.newEvent(new_event)
@@ -113,7 +116,7 @@ class Day extends React.Component {
         console.assert(event.target.parentElement.className === "event")
         const ID = event.target.parentElement.dataset.id
         console.log(ID);
-        fetch("http://localhost:3000/events", deleteEventFetchParams(ID))
+        fetch("http://localhost:3000/events", deleteEventFetchParams(ID, this.props.currentUser))
             .then(res => {res.json()})
             .then(deletedEventResult => {
                 if ((deletedEventResult !== undefined) && (deletedEventResult.errors !== undefined)) {

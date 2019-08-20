@@ -52,16 +52,27 @@ class Authentication {
     login = (username, password) => {
         const requestOptions = loginRequestOptions(username, password);
         fetch("http://localhost:3000/login", requestOptions)
+            .then(response => response.json())
             .then(response => {
-                console.log(JSON.stringify(response))
-                // debugger;
+                console.log(response);
+                if (response.errors === undefined) {
+                    localStorage.setItem('currentUser', JSON.stringify(response.jwt))
+                }
+                return response;
             })
-    }
+}
 
     signup = (name, username, password) => {
         const requestOptions = signUpRequestOptions(name, username, password);
-        return (fetch("http://localhost:3000/users", requestOptions)
-            .then(response => response.json()))
+        return fetch("http://localhost:3000/users", requestOptions)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                if (response.errors === undefined) {
+                    localStorage.setItem('currentUser', JSON.stringify(response.jwt))
+                }
+                return response;
+            })
     }
 }
 
