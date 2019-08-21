@@ -40,9 +40,7 @@ class Authentication {
             console.log('No cached login creds.');
             return null;
         }
-        console.log(item);
         const parsed = JSON.parse(item);
-        console.warn(parsed);
         return parsed;
     }
 
@@ -57,7 +55,10 @@ class Authentication {
         return fetch("http://localhost:3000/login", requestOptions)
             .then(response => response.json())
             .then(response => {
-                console.log(response);
+                // console.log(response);
+                console.assert(response != null);
+                console.assert(response !== undefined);
+                console.assert(response !== "undefined");
                 if (response.errors === undefined) {
                     console.assert(response.jwt !== undefined)
                     localStorage.setItem('currentUser', JSON.stringify(response.jwt))
@@ -71,9 +72,11 @@ class Authentication {
         return fetch("http://localhost:3000/users", requestOptions)
             .then(response => response.json())
             .then(response => {
-                console.log(response);
+                console.assert(response != null);
+                console.assert(response !== undefined);
+                console.assert(response !== "undefined");
                 if (response.errors === undefined) {
-                    localStorage.setItem('currentUser', JSON.stringify(response.jwt))
+                    localStorage.setItem('currentUser', JSON.stringify(response.jwt));
                 }
                 return response;
             })

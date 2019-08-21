@@ -5,14 +5,13 @@ import './stylesheets/App.css';
 import './stylesheets/main.css'
 import DaysContainer from './containers/DaysContainer';
 import moment from 'moment';
-import Navigation from './components/Navigation';
 import Authentication from './util/Authentication';
 import Signup from './components/Signup';
 import Login from './components/Login'
 // console.warn(Authentication)
 
 function localCreds() {
-  let newAuth = new Authentication
+  let newAuth = new Authentication()
   return newAuth.fromLocalStorage();
 
 }
@@ -36,6 +35,10 @@ class App extends React.Component {
     this.setState({currentWeek: week - 1})
   }
 
+  setCurrentUser = (currentUser) => {
+    // console.log("currentUser", currentUser)
+    this.setState({currentUser: currentUser}); 
+  }
 
   // return (
   //   <Router>
@@ -45,7 +48,7 @@ class App extends React.Component {
 
   componentDidMount() {
     if (this.state.currentUser ===  null) {
-      const newAuth = new Authentication
+      const newAuth = new Authentication()
       const locallyStoredUser = newAuth.fromLocalStorage();
       if (locallyStoredUser !== null) {
         this.setState({currentUser: locallyStoredUser})
@@ -56,7 +59,6 @@ class App extends React.Component {
   
 
   logoutClick = (event) => {
-    console.warn("notimpl");
     this.setState({currentUser: null});
     const newAuth = new Authentication()
     newAuth.clearLocalStorage();
@@ -79,7 +81,7 @@ class App extends React.Component {
       )
     }
     return (
-      <Route exact path='/'>
+      <>
         {this.renderLogout()}
         <DaysContainer
           firstDate = {this.state.firstDayOfSelectedWeek}
@@ -87,18 +89,19 @@ class App extends React.Component {
           toggleWeek = {this.toggleCurrentWeek}
           currentUser = {this.state.currentUser}
         />
-      </Route>
+      </>
     );
   }
+  
 
   render() {
     return (
       <div className="App">
         <BrowserRouter >
-          <Route exact path='/signup' component={Signup} />
-          <Route exact path='/login' component={Login}/>
+          <Route exact path='/login' render={(props)=> <Login {...props} setCurrentUser={this.setCurrentUser}/>}/>
+          <Route exact path='/signup' render={(props) =><Signup {...props} currentUser={this.state.currentUser}/>} />
+          <Route exact path='/' render={this.renderLoginOrHome}/>
 
-          {this.renderLoginOrHome()}
         </BrowserRouter>
       </div>
     );

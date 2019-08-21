@@ -1,6 +1,6 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
-import {Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Authentication from '../util/Authentication';
 import formatErrors from '../util/FormatErrorObject';
@@ -28,11 +28,14 @@ class Signup extends React.Component {
         let newAuth = new Authentication()
         newAuth.login(this.state.email, this.state.password)
             .then(auth => {
-                console.log(auth);
+                console.assert(auth != null);
                 if (auth.errors !== undefined) {
                     alert(formatErrors(auth))
                     return;
                 }
+                console.assert(auth.jwt !== undefined);
+                console.assert(auth.jwt !== "undefined");
+                this.props.setCurrentUser(auth.jwt);
                 this.setState({submitted: true})
             })
       }

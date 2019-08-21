@@ -47,10 +47,11 @@ class DaysContainer extends React.Component {
     }
 
     componentDidMount = () => {
+        console.assert( this.props.currentUser !== undefined);
         if (this.props.currentUser === null) {
             return;
         }
-        console.log(this.props.currentUser)
+        // console.log(this.props.currentUser)
         // Note to self, handle errors. See also: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
         fetch("http://localhost:3000/events", {
             headers: {
@@ -60,25 +61,31 @@ class DaysContainer extends React.Component {
         })
         .then(res => res.json())
         .then(eventsJSONParsed => {
+            console.assert(eventsJSONParsed !== null);
+            console.assert(eventsJSONParsed !== undefined);
+            console.assert(eventsJSONParsed !== "undefined");
             if(eventsJSONParsed.errors) {
                 console.error(eventsJSONParsed.errors);
                 alert(formatErrors(eventsJSONParsed.errors));
                 return;
             }
-            console.log("got events: ", eventsJSONParsed)
             this.getAllFilters(eventsJSONParsed)
             this.setState({events: eventsJSONParsed});
         })
 
-        fetch("http://localhost:3000/calendar", {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.currentUser}`
-            }
-        }).then(res => res.json())
-        .then(calendarParsed => {
-            console.log("Got calendar: ", calendarParsed);
-        })
+        // fetch("http://localhost:3000/calendar", {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${this.props.currentUser}`
+        //     }
+        // }).then(res => res.json())
+        // .then(calendarParsed => {
+        //     console.assert(calendarParsed !== null);
+        //     console.assert(calendarParsed !== undefined);
+        //     console.assert(calendarParsed !== "undefined");
+
+        //     console.log("Got calendar: ", calendarParsed);
+        // })
 
     }
 

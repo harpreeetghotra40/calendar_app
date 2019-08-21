@@ -54,7 +54,7 @@ function appendDayFromClassListType(appendDayEventTarget) {
 class Day extends React.Component {
 
     drag = (event) => {
-        const reqEvent = this.props.events.find(ev => ev.id == event.target.dataset.id)
+        const reqEvent = this.props.events.find(ev => ev.id === parseInt(event.target.dataset.id, 10))
         let eventToTransfer = JSON.stringify(reqEvent);
         event.dataTransfer.setData("event", eventToTransfer);
         // console.log(event.dataTransfer.getData("event"));

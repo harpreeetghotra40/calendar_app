@@ -1,9 +1,9 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
-import {Link, Redirect } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Authentication from '../util/Authentication';
-import formatErrors from '../util/FormatErrorObject';
+import {primaryError} from '../util/FormatErrorObject';
 import '../stylesheets/SignUp.css'
 
 
@@ -30,7 +30,7 @@ class Signup extends React.Component {
         authPromise.then(auth => {
             console.log(auth);
             if (auth.errors !== undefined) {
-                alert(formatErrors(auth));
+                alert(primaryError(auth));
                 return;
             }
             this.setState({submitted: true});
@@ -39,7 +39,10 @@ class Signup extends React.Component {
 
     render() {
         if (this.state.submitted) {
-            return (<Redirect to='/'/>)
+            return (<Redirect to='/'/>);
+        }
+        if (this.props.currentUser !== null) {
+            return (<Redirect to='/'/>);
         }
         return (
             <div className = "form-container">

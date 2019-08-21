@@ -1,10 +1,19 @@
 function formatErrors(errorObject) {
     console.log(errorObject);
 
-    const eachError = Object.keys(errorObject.errors).map(key => {
-        return `${key}: "${errorObject.errors[key].join(', ')}"`
-    });
-    return `primary error: ${errorObject.message},\n\tdetails: "${eachError}"`
+    // const eachError = errorObject.errors.join(', ');
+    const errorsInErrorObject = errorObject.errors;
+    const error = errorsInErrorObject.errors;
+    const messages = errorsInErrorObject.message.join(', ');
+    return `primary error: ${error},\n\tdetails: "${messages}"`
+}
+
+function primaryError(errorObject) {
+    console.log(formatErrors);
+    const errorsInErrorObject = errorObject.errors;
+    const error = errorsInErrorObject.errors;
+    return error;
 }
 
 export default formatErrors;
+export {primaryError};
