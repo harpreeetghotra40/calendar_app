@@ -32,7 +32,7 @@ class App extends React.Component {
   }
 
   toggleCurrentWeek = (week) => {
-    console.log(week-1);
+    // console.log(week-1);
     this.setState({currentWeek: week - 1})
   }
 
