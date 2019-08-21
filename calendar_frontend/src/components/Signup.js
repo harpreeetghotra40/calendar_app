@@ -33,6 +33,7 @@ class Signup extends React.Component {
                 alert(primaryError(auth));
                 return;
             }
+            this.props.setCurrentUser(auth.jwt);
             this.setState({submitted: true});
         })
       }

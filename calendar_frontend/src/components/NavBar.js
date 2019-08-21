@@ -6,6 +6,10 @@ import '../stylesheets/Navbar.css'
 
 class NavBar extends React.Component {
 
+    state = {
+        date: new Date()
+    }
+
     renderFilter = (filter) => {
         return (
             <div>
@@ -36,11 +40,18 @@ class NavBar extends React.Component {
             weekNum.addEventListener('click', this.toggleWeekFunc)
         })
     }
+
+    componentDidUpdate() {
+        const weekNumbers = document.querySelectorAll('.react-calendar__tile span')
+        weekNumbers.forEach(weekNum => {
+            weekNum.addEventListener('click', this.toggleWeekFunc)
+        })
+    }
     
     render(){
         return (
             <div className = "calendar-navbar">
-                <Calendar calendarType="US" showWeekNumbers={true}/>
+                <Calendar calendarType="US" showWeekNumbers={true} onChange={date => this.setState({date})} value={this.state.value}/>
                 <div className="filter-heading">Filters</div>
                 {this.renderFilterForm()}
             </div>

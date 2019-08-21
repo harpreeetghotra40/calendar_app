@@ -32,6 +32,7 @@ class App extends React.Component {
   }
 
   toggleCurrentWeek = (week) => {
+    console.log(week-1);
     this.setState({currentWeek: week - 1})
   }
 
@@ -99,7 +100,7 @@ class App extends React.Component {
       <div className="App">
         <BrowserRouter >
           <Route exact path='/login' render={(props)=> <Login {...props} setCurrentUser={this.setCurrentUser}/>}/>
-          <Route exact path='/signup' render={(props) =><Signup {...props} currentUser={this.state.currentUser}/>} />
+          <Route exact path='/signup' render={(props) =><Signup {...props} currentUser={this.state.currentUser} setCurrentUser={this.setCurrentUser}/>} />
           <Route exact path='/' render={this.renderLoginOrHome}/>
 
         </BrowserRouter>
