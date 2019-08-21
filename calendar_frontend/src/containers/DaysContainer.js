@@ -1,5 +1,5 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom'
+import {withRouter , Link} from 'react-router-dom'
 import Day from '../components/Day';
 import formatErrors from '../util/FormatErrorObject'
 import NavBar from '../components/NavBar';

@@ -1,6 +1,6 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import {Link, Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Authentication from '../util/Authentication';
 import formatErrors from '../util/FormatErrorObject';
@@ -25,7 +25,7 @@ class Signup extends React.Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        let newAuth = new Authentication
+        let newAuth = new Authentication()
         newAuth.login(this.state.email, this.state.password)
             .then(auth => {
                 console.log(auth);
@@ -42,7 +42,6 @@ class Signup extends React.Component {
         }
         return (
             <div className = "form-container">
-
                 <Form className = "login-form" onSubmit={this.submitHandler}>
                     <h2>Welcome, back</h2>
                     <Form.Group controlId="formBasicEmail">

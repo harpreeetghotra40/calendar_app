@@ -58,7 +58,7 @@ class App extends React.Component {
   logoutClick = (event) => {
     console.warn("notimpl");
     this.setState({currentUser: null});
-    const newAuth = new Authentication
+    const newAuth = new Authentication()
     newAuth.clearLocalStorage();
     
   }
