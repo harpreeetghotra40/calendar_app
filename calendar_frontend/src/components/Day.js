@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment'
 // import MaterialIcon , {colorPalette} from 'material-icons-react';
-import formatErrors from '../util/FormatErrorObject';
+import {primaryError} from '../util/FormatErrorObject';
 
 
 
@@ -14,8 +14,8 @@ function updateEventFetchParams(eventToBeDropped, appendDay, currentUser) {
             'Authorization': `Bearer ${currentUser}`
         },
         body: JSON.stringify({
-            eventToBeDropped,
-            new_event_time: appendDay.dataset.day
+            eventToBeDropped: eventToBeDropped,
+            new_event_time: appendDay
         })
     });
 }
@@ -69,11 +69,17 @@ class Day extends React.Component {
         const eventData = event.dataTransfer.getData("event");
         // console.log(eventData);
         const eventToBeDropped = JSON.parse(eventData);
-        const appendDay = appendDayFromClassListType(event.target);
+        debugger;
+        const appendDay = appendDayFromClassListType(event.target).dataset.day;
         console.assert(this.props.currentUser !== null);
         fetch("http://localhost:3000/events", updateEventFetchParams(eventToBeDropped, appendDay, this.props.currentUser))
             .then(res => res.json())
             .then(new_event => {
+                if(new_event.errors) {
+                    console.log(new_event.errors)
+                    alert(primaryError(new_event.errors))
+                    return;
+                }
                 this.props.newEvent(new_event)
             }) 
     }
@@ -121,7 +127,7 @@ class Day extends React.Component {
             .then(deletedEventResult => {
                 if ((deletedEventResult !== undefined) && (deletedEventResult.errors !== undefined)) {
                     console.log(deletedEventResult.errors)
-                    alert(formatErrors(deletedEventResult.errors))
+                    alert(primaryError(deletedEventResult.errors))
                     return;
                 }
                 this.props.removeEvent(ID)
