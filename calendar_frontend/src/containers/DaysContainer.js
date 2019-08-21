@@ -113,6 +113,7 @@ class DaysContainer extends React.Component {
         this.setState({events: newEvents, modalFormShow: false})
     }
 
+
     removeEvent = (id) => {
         const ID = parseInt(id, 10);
         const filteredEvents = this.state.events.filter(event => event.id !== ID);

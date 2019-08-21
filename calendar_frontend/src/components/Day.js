@@ -70,8 +70,12 @@ class Day extends React.Component {
         // console.log(eventData);
         const eventToBeDropped = JSON.parse(eventData);
         const appendDay = appendDayFromClassListType(event.target).dataset.day;
+        let newDay = appendDay.split(" ")
+        newDay[4] = eventToBeDropped.event_time.toString()
+        newDay = newDay.join(" ")
+        // debugger
         console.assert(this.props.currentUser !== null);
-        fetch("http://localhost:3000/events", updateEventFetchParams(eventToBeDropped, appendDay, this.props.currentUser))
+        fetch("http://localhost:3000/events", updateEventFetchParams(eventToBeDropped, newDay, this.props.currentUser))
             .then(res => res.json())
             .then(new_event => {
                 if(new_event.errors) {
