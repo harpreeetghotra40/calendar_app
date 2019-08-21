@@ -46,6 +46,14 @@ class DaysContainer extends React.Component {
         eventTags: []
     }
 
+    updateEventTags = (newEventTag) => {
+        if(!this.state.eventTags.includes(newEventTag)){
+            const eventTags = [...this.state.eventTags, newEventTag];
+            this.setState({eventTags: eventTags})
+        }
+        
+    }
+
     componentDidMount = () => {
         console.assert( this.props.currentUser !== undefined);
         if (this.props.currentUser === null) {
@@ -116,13 +124,13 @@ class DaysContainer extends React.Component {
     }
     
     renderEventModal = () => {
-        if (this.state.modalFormShow === true) {
-            // debugger;    
+        if (this.state.modalFormShow === true) { 
             return <EventModal
                 newEvent={this.newEvent}
                 date={this.state.selectedDate}
                 modalFormShowSet={this.modalFormShowSet}
                 currentUser={this.props.currentUser}
+                updateEventTags= {this.updateEventTags}
                 />;
         }
         return null;
@@ -145,7 +153,8 @@ class DaysContainer extends React.Component {
                     this.newEvent,
                     this.handleAddEventButtonClick,
                     this.removeEvent,
-                    this.props.currentUser)}
+                    this.props.currentUser,
+                    )}
             </React.Fragment>
             </div>
         );

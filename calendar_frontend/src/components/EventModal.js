@@ -50,6 +50,9 @@ export default class EventModal extends Component{
                     return;
                 }
                 this.props.newEvent(theNewEvent);
+                console.log(this.props)
+                // console.log(theNewEvent)
+                this.props.updateEventTags(theNewEvent.event_tag)
                 // this.modalFormShow(false);
             })
     }
