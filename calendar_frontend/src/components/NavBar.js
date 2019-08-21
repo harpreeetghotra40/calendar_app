@@ -1,7 +1,7 @@
 import React from 'react'
 import Calendar from 'react-calendar';
 import '../stylesheets/Navbar.css'
-// import moment from 'moment';
+import moment from 'moment';
 
 
 class NavBar extends React.Component {
@@ -34,6 +34,11 @@ class NavBar extends React.Component {
         this.props.toggleCurrentWeek(event.target.innerText)
     }
 
+    onChange = date => {
+        this.props.toggleCurrentWeek(moment(date).week())
+        this.setState({ date })
+    }
+
     componentDidMount(){
         const weekNumbers = document.querySelectorAll('.react-calendar__tile span')
         weekNumbers.forEach(weekNum => {
@@ -41,17 +46,18 @@ class NavBar extends React.Component {
         })
     }
 
-    componentDidUpdate() {
-        const weekNumbers = document.querySelectorAll('.react-calendar__tile span')
-        weekNumbers.forEach(weekNum => {
-            weekNum.addEventListener('click', this.toggleWeekFunc)
-        })
-    }
+    // componentDidUpdate() {
+
+    //     const weekNumbers = document.querySelectorAll('.react-calendar__tile span')
+    //     weekNumbers.forEach(weekNum => {
+    //         weekNum.addEventListener('click', this.toggleWeekFunc)
+    //     })
+    // }
     
     render(){
         return (
             <div className = "calendar-navbar">
-                <Calendar calendarType="US" showWeekNumbers={true} onChange={date => this.setState({date})} value={this.state.value}/>
+                <Calendar calendarType="US" onChange={this.onChange} value={this.state.value}/>
                 <div className="filter-heading">Filters</div>
                 {this.renderFilterForm()}
             </div>
