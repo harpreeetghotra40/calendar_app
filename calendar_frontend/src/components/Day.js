@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment'
-// import MaterialIcon , {colorPalette} from 'material-icons-react';
 import {primaryError} from '../util/FormatErrorObject';
 
 

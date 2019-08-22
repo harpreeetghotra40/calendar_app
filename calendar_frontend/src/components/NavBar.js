@@ -9,16 +9,6 @@ class NavBar extends React.Component {
     state = {
         date: new Date()
     }
-
-    // renderFilter = (filter) => {
-    //     console.log(filter)
-    //     return (
-    //         <div>
-    //             <input type="checkbox" name = {filter} />
-    //             <label for={filter} className = "event-filter-text">{filter}</label>
-    //         </div>
-    //     )
-    // }
     
     renderFilterForm = () => {
         return (
